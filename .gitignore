@@ -99,3 +99,5 @@ lint/tmp/
 
 # keystore
 keystore.properties
+
+app/agconnect-services.json
