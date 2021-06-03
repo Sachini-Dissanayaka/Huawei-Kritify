@@ -1,11 +1,14 @@
 package com.huawei.kritify.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -18,6 +21,7 @@ public class ScrollMenuRecyclerViewAdapter extends RecyclerView.Adapter<ScrollMe
 
     private ArrayList<String> menuItems;
     private Context mContext;
+    private int selectedPosition = 0;
 
     // data is passed into the constructor
     public ScrollMenuRecyclerViewAdapter(Context context, ArrayList<String> menuItems) {
@@ -26,6 +30,7 @@ public class ScrollMenuRecyclerViewAdapter extends RecyclerView.Adapter<ScrollMe
     }
 
     // inflates the row layout from xml when needed, returns view holder
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_menu, parent, false);
@@ -36,14 +41,12 @@ public class ScrollMenuRecyclerViewAdapter extends RecyclerView.Adapter<ScrollMe
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Called");
+        if (selectedPosition == position) {
+            holder.parent.setBackgroundColor(Color.parseColor("#03295E"));
+        } else {
+            holder.parent.setBackgroundColor(Color.parseColor("#5E75F6"));
+        }
         holder.parent.setText(menuItems.get(position));
-
-        // on click see more
-//        holder.seeMoreButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(mContext, FarmActivity.class);
-//            intent.putExtra(FARM_KEY, farms.get(position).getId());
-//            mContext.startActivity(intent);
-//        });
     }
 
     // total number of rows
@@ -54,12 +57,16 @@ public class ScrollMenuRecyclerViewAdapter extends RecyclerView.Adapter<ScrollMe
 
 
     // stores and recycles views as they are scrolled off screen
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private MaterialButton parent;
 
         ViewHolder(View itemView) {
             super(itemView);
             parent = itemView.findViewById(R.id.menuButton);
+            itemView.setOnClickListener(v -> {
+                selectedPosition = getAdapterPosition();
+                notifyDataSetChanged();
+            });
         }
     }
 }

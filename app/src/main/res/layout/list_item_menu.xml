@@ -8,7 +8,6 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:text="@string/item_text"
-    app:backgroundTint="#5E75F6"
     android:textColor="@color/white"
     android:textAllCaps="false"
     android:textColorHighlight="@color/black"

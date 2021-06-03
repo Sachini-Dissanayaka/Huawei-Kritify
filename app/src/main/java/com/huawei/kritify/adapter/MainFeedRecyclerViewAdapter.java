@@ -6,18 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.huawei.kritify.R;
 import com.huawei.kritify.model.FeedItem;
 import java.util.ArrayList;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "FeedRecyclerViewAdapter";
@@ -32,6 +28,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
     }
 
     // inflates the row layout from xml when needed, returns view holder
+    @NonNull
     @Override
     public MainFeedRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_feed, parent, false);
