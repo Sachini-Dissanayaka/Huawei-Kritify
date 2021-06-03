@@ -12,19 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.huawei.kritify.R;
-import com.huawei.kritify.model.FeedItem;
+import com.huawei.kritify.model.Post;
 import java.util.ArrayList;
 
 public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "FeedRecyclerViewAdapter";
 
-    private ArrayList<FeedItem> feedItems;
+    private ArrayList<Post> posts;
     private Context mContext;
 
     // data is passed into the constructor
-    public MainFeedRecyclerViewAdapter(Context context, ArrayList<FeedItem> feedItems) {
+    public MainFeedRecyclerViewAdapter(Context context, ArrayList<Post> posts) {
         this.mContext = context;
-        this.feedItems = feedItems;
+        this.posts = posts;
     }
 
     // inflates the row layout from xml when needed, returns view holder
@@ -39,7 +39,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
     @Override
     public void onBindViewHolder(MainFeedRecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Called");
-        FeedItem currentItem = feedItems.get(position);
+        Post currentItem = posts.get(position);
 
         holder.username.setText(currentItem.getUserName());
         holder.entityName.setText(currentItem.getEntityName());
@@ -62,7 +62,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
     // total number of rows
     @Override
     public int getItemCount() {
-        return feedItems.size();
+        return posts.size();
     }
 
 

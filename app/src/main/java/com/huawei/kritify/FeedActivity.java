@@ -17,7 +17,7 @@ import android.widget.SearchView;
 
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
-import com.huawei.kritify.model.FeedItem;
+import com.huawei.kritify.model.Post;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -32,7 +32,7 @@ public class FeedActivity extends AppCompatActivity {
     ScrollMenuRecyclerViewAdapter scrollMenuRecyclerViewAdapter;
 
     RecyclerView recyclerViewFeed;
-    ArrayList<FeedItem> feedItems;
+    ArrayList<Post> posts;
     MainFeedRecyclerViewAdapter mainFeedRecyclerViewAdapter;
 
     ArrayAdapter<String> adapter;
@@ -64,22 +64,22 @@ public class FeedActivity extends AppCompatActivity {
 
         ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.designrulz.com/wp-content/uploads/2015/04/Joie-restaurant-_designrulz-1.jpg"));
 
-        feedItems = new ArrayList<>(Arrays.asList(
-                new FeedItem("Yoshani Ranaweera",
+        posts = new ArrayList<>(Arrays.asList(
+                new Post("Yoshani Ranaweera",
                         "Kingsbury Restaurant",
                         new Location(""),
                         LocalTime.parse("12:32",
                                 DateTimeFormatter.ISO_TIME),
                         imageList,
                         "The food here is simply amazing! You should totally check it out"),
-                new FeedItem("Sachini Dissanayake",
+                new Post("Sachini Dissanayake",
                         "Ciara Hotel",
                         new Location(""),
                         LocalTime.parse("11:30",
                                 DateTimeFormatter.ISO_TIME),
                         imageList,
                         "I had a really wonderful time at this hotel! You should totally check it out"),
-                new FeedItem("Daphne Waters",
+                new Post("Daphne Waters",
                         "Udawalawa Hotel",
                         new Location(""),
                         LocalTime.parse("10:38",
@@ -88,7 +88,7 @@ public class FeedActivity extends AppCompatActivity {
                         "I had a really wonderful time at this hotel! You should totally check it out")
         ));
 
-        mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, feedItems);
+        mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, posts);
         recyclerViewFeed.setAdapter(mainFeedRecyclerViewAdapter);
         mainFeedRecyclerViewAdapter.notifyDataSetChanged();
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -4,7 +4,7 @@ import android.location.Location;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class FeedItem {
+public class Post {
     private String userName;
     private String entityName;
     private Location entityLocation;
@@ -12,7 +12,7 @@ public class FeedItem {
     private ArrayList<String> imageUrls;
     private String review;
 
-    public FeedItem(String userName, String entityName, Location entityLocation, LocalTime time, ArrayList<String> imageUrls, String review) {
+    public Post(String userName, String entityName, Location entityLocation, LocalTime time, ArrayList<String> imageUrls, String review) {
         this.userName = userName;
         this.entityName = entityName;
         this.entityLocation = entityLocation;

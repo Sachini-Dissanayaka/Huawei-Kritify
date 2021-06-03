@@ -19,9 +19,13 @@
             android:id="@+id/toolbar"
             android:background="@color/black"
             android:minHeight="?attr/actionBarSize"
-            app:logo="@drawable/ic_menu"
-            android:onClick="showPopup"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_menu"
+                android:onClick="showPopup"/>
 
             <TextView
                 android:layout_width="wrap_content"
