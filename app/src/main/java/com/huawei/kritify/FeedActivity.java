@@ -2,12 +2,16 @@ package com.huawei.kritify;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 
@@ -39,6 +43,10 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);;
+
         recyclerViewMenu = findViewById(R.id.menuRecyclerView);
         searchView = findViewById(R.id.searchView);
         recyclerViewFeed = findViewById(R.id.feedRecyclerView);
@@ -65,7 +73,7 @@ public class FeedActivity extends AppCompatActivity {
                         imageList,
                         "The food here is simply amazing! You should totally check it out"),
                 new FeedItem("Sachini Dissanayake",
-                        "Kingsbury Hotel",
+                        "Ciara Hotel",
                         new Location(""),
                         LocalTime.parse("11:30",
                                 DateTimeFormatter.ISO_TIME),
@@ -100,5 +108,13 @@ public class FeedActivity extends AppCompatActivity {
 //                return false;
 //            }
 //        });
+
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.toolbar_icons, popup.getMenu());
+        popup.show();
     }
 }
