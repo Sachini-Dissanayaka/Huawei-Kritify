@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,19 +42,24 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
     @Override
     public void onBindViewHolder(MainFeedRecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Called");
-        holder.username.setText(feedItems.get(position).getUserName());
-        holder.entityName.setText(feedItems.get(position).getEntityName());
-        //TODO: format correct time
-        holder.time.setText(feedItems.get(position).getTime().toString());
-        //TODO: give location coordinates to icon
-        Glide.with(mContext)
-                .asBitmap()
-                .load(feedItems.get(position)
-                        .getImageUrls().get(0))
-                .transform(new RoundedCornersTransformation(30, 0))
-                .into(holder.image);
+        FeedItem currentItem = feedItems.get(position);
 
-        holder.review.setText(feedItems.get(position).getReview());
+        holder.username.setText(currentItem.getUserName());
+        holder.entityName.setText(currentItem.getEntityName());
+        //TODO: format correct time
+        holder.time.setText(currentItem.getTime().toString());
+        //TODO: give location coordinates to icon
+        holder.review.setText(currentItem.getReview());
+
+        holder.imageRecyclerView.setLayoutManager(new LinearLayoutManager(
+                mContext, LinearLayoutManager.HORIZONTAL, false));
+        holder.imageRecyclerView.setHasFixedSize(true);
+
+        FeedImageRecyclerViewAdapter feedImageRecyclerViewAdapter
+                = new FeedImageRecyclerViewAdapter(
+                        mContext, currentItem.getImageUrls());
+
+        holder.imageRecyclerView.setAdapter(feedImageRecyclerViewAdapter);
     }
 
     // total number of rows
@@ -69,7 +75,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
         private TextView entityName;
         private TextView time;
         private ImageButton location;
-        private ImageView image;
+        private RecyclerView imageRecyclerView;
         private TextView review;
 
         ViewHolder(View itemView) {
@@ -78,7 +84,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
             entityName = itemView.findViewById(R.id.entity_name);
             time = itemView.findViewById(R.id.time);
             location = itemView.findViewById(R.id.location_icon);
-            image = itemView.findViewById(R.id.image);
+            imageRecyclerView = itemView.findViewById(R.id.imageRecyclerView);
             review = itemView.findViewById(R.id.review);
         }
     }

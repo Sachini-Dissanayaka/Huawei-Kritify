@@ -12,4 +12,5 @@
     <string name="my_account">My Account</string>
     <string name="help">Help</string>
     <string name="about_us">About Us</string>
+    <string name="location_button">location button</string>
 </resources>

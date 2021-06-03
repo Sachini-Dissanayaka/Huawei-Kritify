@@ -62,7 +62,7 @@ public class FeedActivity extends AppCompatActivity {
 
         recyclerViewFeed.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg"));
+        ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.designrulz.com/wp-content/uploads/2015/04/Joie-restaurant-_designrulz-1.jpg"));
 
         feedItems = new ArrayList<>(Arrays.asList(
                 new FeedItem("Yoshani Ranaweera",
@@ -90,6 +90,7 @@ public class FeedActivity extends AppCompatActivity {
 
         mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, feedItems);
         recyclerViewFeed.setAdapter(mainFeedRecyclerViewAdapter);
+        mainFeedRecyclerViewAdapter.notifyDataSetChanged();
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
 //            public boolean onQueryTextSubmit(String query) {
