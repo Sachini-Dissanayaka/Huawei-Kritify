@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Kritify</string>
+    <string name="item_text">Item Text</string>
+    <string name="new_post">New post</string>
+    <string name="search">Search</string>
+    <string name="user_name">User name</string>
+    <string name="entity_name">Entity name</string>
+    <string name="time">Time</string>
+    <string name="review">Review</string>
+    <string name="image_cannot_be_displayed">Image cannot be displayed</string>
 </resources>
