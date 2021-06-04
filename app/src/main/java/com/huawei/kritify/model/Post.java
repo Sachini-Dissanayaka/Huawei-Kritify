@@ -1,21 +1,20 @@
 package com.huawei.kritify.model;
 
-import android.location.Location;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Post {
+    private int id;
     private String userName;
-    private String entityName;
-    private Location entityLocation;
-    private LocalTime time;
+    private Entity entity;
+    private LocalDateTime time;
     private ArrayList<String> imageUrls;
     private String review;
 
-    public Post(String userName, String entityName, Location entityLocation, LocalTime time, ArrayList<String> imageUrls, String review) {
+    public Post(int id, String userName, Entity entity, LocalDateTime time, ArrayList<String> imageUrls, String review) {
+        this.id = id;
         this.userName = userName;
-        this.entityName = entityName;
-        this.entityLocation = entityLocation;
+        this.entity = entity;
         this.time = time;
         this.imageUrls = imageUrls;
         this.review = review;
@@ -29,27 +28,19 @@ public class Post {
         this.userName = userName;
     }
 
-    public String getEntityName() {
-        return entityName;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
-    public Location getEntityLocation() {
-        return entityLocation;
-    }
-
-    public void setEntityLocation(Location entityLocation) {
-        this.entityLocation = entityLocation;
-    }
-
-    public LocalTime getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

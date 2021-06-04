@@ -17,8 +17,11 @@ import android.widget.SearchView;
 
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
+import com.huawei.kritify.enums.EntityType;
+import com.huawei.kritify.model.Entity;
 import com.huawei.kritify.model.Post;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -63,29 +66,32 @@ public class FeedActivity extends AppCompatActivity {
         recyclerViewFeed.setLayoutManager(new LinearLayoutManager(this));
 
         ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.designrulz.com/wp-content/uploads/2015/04/Joie-restaurant-_designrulz-1.jpg"));
+        Location loc = new Location("dummyprovider");
+        loc.setLatitude(20.3);
+        loc.setLongitude(52.6);
+        Entity entity1 = new Entity(1, "Kingsbury Restaurant", EntityType.HOTEL, loc);
+        Entity entity2 = new Entity(1, "Ciara Hotel", EntityType.RESTAURANT, loc);
+        Entity entity3 = new Entity(1, "Symphony Hotel", EntityType.CLOTHING_STORE, loc);
 
         posts = new ArrayList<>(Arrays.asList(
-                new Post("Yoshani Ranaweera",
-                        "Kingsbury Restaurant",
-                        new Location(""),
-                        LocalTime.parse("12:32",
-                                DateTimeFormatter.ISO_TIME),
+                new Post(1,
+                        "Yoshani Ranaweera",
+                        entity1,
+                        LocalDateTime.now(),
+                        imageList,
+                        "The food here is simply amazing! Go eat the world's most delicious food. You sure won't regret that!"),
+                new Post(2,
+                        "Sachini Dissanayaka",
+                        entity2,
+                        LocalDateTime.now(),
                         imageList,
                         "The food here is simply amazing! You should totally check it out"),
-                new Post("Sachini Dissanayake",
-                        "Ciara Hotel",
-                        new Location(""),
-                        LocalTime.parse("11:30",
-                                DateTimeFormatter.ISO_TIME),
+                new Post(3,
+                        "Daphne Waters",
+                        entity3,
+                        LocalDateTime.now(),
                         imageList,
-                        "I had a really wonderful time at this hotel! You should totally check it out"),
-                new Post("Daphne Waters",
-                        "Udawalawa Hotel",
-                        new Location(""),
-                        LocalTime.parse("10:38",
-                                DateTimeFormatter.ISO_TIME),
-                        imageList,
-                        "I had a really wonderful time at this hotel! You should totally check it out")
+                        "The food here is simply amazing! You should totally check it out")
         ));
 
         mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, posts);

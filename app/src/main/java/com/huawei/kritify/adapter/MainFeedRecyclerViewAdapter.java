@@ -1,6 +1,7 @@
 package com.huawei.kritify.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.huawei.kritify.R;
 import com.huawei.kritify.model.Post;
+
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "FeedRecyclerViewAdapter";
@@ -36,15 +41,18 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
     }
 
     // binds the data to each feed item
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(MainFeedRecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Called");
         Post currentItem = posts.get(position);
 
         holder.username.setText(currentItem.getUserName());
-        holder.entityName.setText(currentItem.getEntityName());
-        //TODO: format correct time
-        holder.time.setText(currentItem.getTime().toString());
+        holder.entityName.setText(currentItem.getEntity().getName());
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d", Locale.ENGLISH);
+        holder.time.setText(currentItem.getTime().format(dateFormatter));
+
         //TODO: give location coordinates to icon
         holder.review.setText(currentItem.getReview());
 
