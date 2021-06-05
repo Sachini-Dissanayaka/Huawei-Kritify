@@ -1,20 +1,29 @@
 package com.huawei.kritify.model;
 
-import java.time.LocalDateTime;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Post {
+
+    @SerializedName("id")
     private int id;
+    @SerializedName("userName")
     private String userName;
-    private Entity entity;
-    private LocalDateTime time;
+    @SerializedName("site")
+    private Site site;
+    @SerializedName("time")
+    private Date time;
+    @SerializedName("images")
     private ArrayList<String> imageUrls;
+    @SerializedName("review")
     private String review;
 
-    public Post(int id, String userName, Entity entity, LocalDateTime time, ArrayList<String> imageUrls, String review) {
+    public Post(int id, String userName, Site site, Date time, ArrayList<String> imageUrls, String review) {
         this.id = id;
         this.userName = userName;
-        this.entity = entity;
+        this.site = site;
         this.time = time;
         this.imageUrls = imageUrls;
         this.review = review;
@@ -28,19 +37,19 @@ public class Post {
         this.userName = userName;
     }
 
-    public Entity getEntity() {
-        return entity;
+    public Site getEntity() {
+        return site;
     }
 
-    public void setEntity(Entity entity) {
-        this.entity = entity;
+    public void setEntity(Site site) {
+        this.site = site;
     }
 
-    public LocalDateTime getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

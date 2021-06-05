@@ -2,13 +2,19 @@ package com.huawei.kritify.model;
 
 import android.location.Location;
 
-public class Entity {
+import com.google.gson.annotations.SerializedName;
+
+public class Site {
+    @SerializedName("id")
     private int id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("type")
     private String type;
+    @SerializedName("location")
     private Location location;
 
-    public Entity(int id, String name, String type, Location location) {
+    public Site(int id, String name, String type, Location location) {
         this.id = id;
         this.name = name;
         this.type = type;

@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.huawei.kritify.R;
 import com.huawei.kritify.model.Post;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRecyclerViewAdapter.ViewHolder> {
@@ -50,8 +52,8 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
         holder.username.setText(currentItem.getUserName());
         holder.entityName.setText(currentItem.getEntity().getName());
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d", Locale.ENGLISH);
-        holder.time.setText(currentItem.getTime().format(dateFormatter));
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM d", Locale.getDefault());
+        holder.time.setText(dateFormatter.format(new Date()));
 
         //TODO: give location coordinates to icon
         holder.review.setText(currentItem.getReview());

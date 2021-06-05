@@ -1,5 +1,6 @@
 package com.huawei.kritify;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -7,27 +8,32 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
-import com.huawei.kritify.enums.EntityType;
-import com.huawei.kritify.model.Entity;
 import com.huawei.kritify.model.Post;
+import com.huawei.kritify.retrofit.RetrofitInstance;
+import com.huawei.kritify.retrofit.RetrofitInterface;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FeedActivity extends AppCompatActivity {
+
+    public static final String TAG = "FeedActivity";
 
     SearchView searchView;
     RecyclerView recyclerViewMenu;
@@ -48,7 +54,7 @@ public class FeedActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
-        setSupportActionBar(toolbar);;
+        setSupportActionBar(toolbar);
 
         recyclerViewMenu = findViewById(R.id.menuRecyclerView);
         searchView = findViewById(R.id.searchView);
@@ -65,38 +71,52 @@ public class FeedActivity extends AppCompatActivity {
 
         recyclerViewFeed.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.designrulz.com/wp-content/uploads/2015/04/Joie-restaurant-_designrulz-1.jpg"));
-        Location loc = new Location("dummyprovider");
-        loc.setLatitude(20.3);
-        loc.setLongitude(52.6);
-        Entity entity1 = new Entity(1, "Kingsbury Restaurant", EntityType.HOTEL, loc);
-        Entity entity2 = new Entity(1, "Ciara Hotel", EntityType.RESTAURANT, loc);
-        Entity entity3 = new Entity(1, "Symphony Hotel", EntityType.CLOTHING_STORE, loc);
+        // get data
+        RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
+        Call<List<Post>> listCall = retrofitInterface.getAllPosts();
+        listCall.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                parseData(response.body());
+            }
 
-        posts = new ArrayList<>(Arrays.asList(
-                new Post(1,
-                        "Yoshani Ranaweera",
-                        entity1,
-                        LocalDateTime.now(),
-                        imageList,
-                        "The food here is simply amazing! Go eat the world's most delicious food. You sure won't regret that!"),
-                new Post(2,
-                        "Sachini Dissanayaka",
-                        entity2,
-                        LocalDateTime.now(),
-                        imageList,
-                        "The food here is simply amazing! You should totally check it out"),
-                new Post(3,
-                        "Daphne Waters",
-                        entity3,
-                        LocalDateTime.now(),
-                        imageList,
-                        "The food here is simply amazing! You should totally check it out")
-        ));
+            @Override
+            public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, posts);
-        recyclerViewFeed.setAdapter(mainFeedRecyclerViewAdapter);
-        mainFeedRecyclerViewAdapter.notifyDataSetChanged();
+//        ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.designrulz.com/wp-content/uploads/2015/04/Joie-restaurant-_designrulz-1.jpg"));
+//        Location loc = new Location("dummyprovider");
+//        loc.setLatitude(20.3);
+//        loc.setLongitude(52.6);
+//        Site site1 = new Site(1, "Kingsbury Restaurant", EntityType.HOTEL, loc);
+//        Site site2 = new Site(1, "Ciara Hotel", EntityType.RESTAURANT, loc);
+//        Site site3 = new Site(1, "Symphony Hotel", EntityType.CLOTHING_STORE, loc);
+//
+//        posts = new ArrayList<>(Arrays.asList(
+//                new Post(1,
+//                        "Yoshani Ranaweera",
+//                        site1,
+//                        new Date(),
+//                        imageList,
+//                        "The food here is simply amazing! Go eat the world's most delicious food. You sure won't regret that!"),
+//                new Post(2,
+//                        "Sachini Dissanayaka",
+//                        site2,
+//                        new Date(),
+//                        imageList,
+//                        "The food here is simply amazing! You should totally check it out"),
+//                new Post(3,
+//                        "Daphne Waters",
+//                        site3,
+//                        new Date(),
+//                        imageList,
+//                        "The food here is simply amazing! You should totally check it out")
+//        ));
+
+
+
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
 //            public boolean onQueryTextSubmit(String query) {
@@ -116,6 +136,12 @@ public class FeedActivity extends AppCompatActivity {
 //            }
 //        });
 
+    }
+
+    private void parseData(List<Post> body) {
+        mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, (ArrayList<Post>) body);
+        recyclerViewFeed.setAdapter(mainFeedRecyclerViewAdapter);
+        mainFeedRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     public void showPopup(View v) {
