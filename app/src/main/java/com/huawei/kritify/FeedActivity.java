@@ -21,6 +21,7 @@ import com.google.android.material.button.MaterialButton;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
 import com.huawei.kritify.enums.EntityType;
+import com.huawei.kritify.enums.MenuType;
 import com.huawei.kritify.model.Post;
 import com.huawei.kritify.retrofit.RetrofitInstance;
 import com.huawei.kritify.retrofit.RetrofitInterface;
@@ -68,22 +69,22 @@ public class FeedActivity extends AppCompatActivity {
                 this, LinearLayoutManager.HORIZONTAL, false));
 
         menuItems = new ArrayList<>(
-                Arrays.asList("All", "Hotels", "Food", "Clothing"));
+                Arrays.asList(MenuType.ALL, MenuType.HOTELS, MenuType.FOOD, MenuType.CLOTHING));
 
         scrollMenuRecyclerViewAdapter = new ScrollMenuRecyclerViewAdapter(this, menuItems, item -> {
             if (!item.equals(selectedMenuItem)) {
                 selectedMenuItem = item;
                 switch (item) {
-                    case "All":
+                    case MenuType.ALL:
                         getInitialData();
                         break;
-                    case "Hotels":
+                    case MenuType.HOTELS:
                         getFilteredData(EntityType.HOTEL);
                         break;
-                    case "Food":
+                    case MenuType.FOOD:
                         getFilteredData(EntityType.RESTAURANT);
                         break;
-                    case "Clothing":
+                    case MenuType.CLOTHING:
                         getFilteredData(EntityType.CLOTHING_STORE);
                         break;
                 }
