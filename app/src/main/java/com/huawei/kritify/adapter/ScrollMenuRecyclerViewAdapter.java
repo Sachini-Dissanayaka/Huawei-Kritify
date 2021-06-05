@@ -12,21 +12,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.huawei.kritify.FeedActivity;
 import com.huawei.kritify.R;
 
 import java.util.ArrayList;
 
 public class ScrollMenuRecyclerViewAdapter extends RecyclerView.Adapter<ScrollMenuRecyclerViewAdapter.ViewHolder>{
+
+    public interface OnItemClickListener {
+        void onItemClick(String item);
+    }
+
     private static final String TAG = "MenuRecyclerViewAdapter";
 
     private ArrayList<String> menuItems;
     private Context mContext;
+    private final OnItemClickListener listener;
     private int selectedPosition = 0;
 
     // data is passed into the constructor
-    public ScrollMenuRecyclerViewAdapter(Context context, ArrayList<String> menuItems) {
+    public ScrollMenuRecyclerViewAdapter(Context context, ArrayList<String> menuItems, OnItemClickListener listener) {
         this.mContext = context;
         this.menuItems = menuItems;
+        this.listener = listener;
     }
 
     // inflates the row layout from xml when needed, returns view holder
@@ -46,7 +54,7 @@ public class ScrollMenuRecyclerViewAdapter extends RecyclerView.Adapter<ScrollMe
         } else {
             holder.parent.setBackgroundColor(Color.parseColor("#5E75F6"));
         }
-        holder.parent.setText(menuItems.get(position));
+        holder.bind(menuItems.get(position), listener);
     }
 
     // total number of rows
@@ -63,8 +71,13 @@ public class ScrollMenuRecyclerViewAdapter extends RecyclerView.Adapter<ScrollMe
         ViewHolder(View itemView) {
             super(itemView);
             parent = itemView.findViewById(R.id.menuButton);
+        }
+
+        public void bind(final String item, final OnItemClickListener listener) {
+            parent.setText(item);
             itemView.setOnClickListener(v -> {
                 selectedPosition = getAdapterPosition();
+                listener.onItemClick(item);
                 notifyDataSetChanged();
             });
         }

@@ -17,8 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
+import com.huawei.kritify.enums.EntityType;
 import com.huawei.kritify.model.Post;
 import com.huawei.kritify.retrofit.RetrofitInstance;
 import com.huawei.kritify.retrofit.RetrofitInterface;
@@ -34,6 +36,8 @@ import retrofit2.Response;
 public class FeedActivity extends AppCompatActivity {
 
     public static final String TAG = "FeedActivity";
+
+    private String selectedMenuItem = "All";
 
     SearchView searchView;
     RecyclerView recyclerViewMenu;
@@ -66,25 +70,32 @@ public class FeedActivity extends AppCompatActivity {
         menuItems = new ArrayList<>(
                 Arrays.asList("All", "Hotels", "Food", "Clothing"));
 
-        scrollMenuRecyclerViewAdapter = new ScrollMenuRecyclerViewAdapter(this, menuItems);
+        scrollMenuRecyclerViewAdapter = new ScrollMenuRecyclerViewAdapter(this, menuItems, item -> {
+            if (!item.equals(selectedMenuItem)) {
+                selectedMenuItem = item;
+                switch (item) {
+                    case "All":
+                        getInitialData();
+                        break;
+                    case "Hotels":
+                        getFilteredData(EntityType.HOTEL);
+                        break;
+                    case "Food":
+                        getFilteredData(EntityType.RESTAURANT);
+                        break;
+                    case "Clothing":
+                        getFilteredData(EntityType.CLOTHING_STORE);
+                        break;
+                }
+            }
+        });
         recyclerViewMenu.setAdapter(scrollMenuRecyclerViewAdapter);
 
         recyclerViewFeed.setLayoutManager(new LinearLayoutManager(this));
 
-        // get data
-        RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
-        Call<List<Post>> listCall = retrofitInterface.getAllPosts();
-        listCall.enqueue(new Callback<List<Post>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
-                parseData(response.body());
-            }
+        getInitialData();
 
-            @Override
-            public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
-                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
 //        ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.designrulz.com/wp-content/uploads/2015/04/Joie-restaurant-_designrulz-1.jpg"));
 //        Location loc = new Location("dummyprovider");
@@ -149,5 +160,39 @@ public class FeedActivity extends AppCompatActivity {
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.toolbar_icons, popup.getMenu());
         popup.show();
+    }
+
+    private void getInitialData() {
+        // get data
+        RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
+        Call<List<Post>> listCall = retrofitInterface.getAllPosts();
+        listCall.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                parseData(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getFilteredData(String type) {
+        // get filtered data
+        RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
+        Call<List<Post>> listCall = retrofitInterface.getPostsBySiteType(type);
+        listCall.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                parseData(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
