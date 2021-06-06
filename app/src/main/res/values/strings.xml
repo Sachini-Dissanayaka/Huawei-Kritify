@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">Kritify</string>
+    <string name="create_post">Create Post</string>
+    <string name="post_shop_name">Shop Name :</string>
+    <string name="post_category">Category :</string>
+    <string name="post_description">Description :</string>
+    <string name="post_submit">Submit</string>
+    <string name="post_previous">Previous</string>
+    <string name="post_next">Next</string>
+    <string name="post_pick">Pick Images</string>
+    <string name="category_prompt">Choose a Category</string>
+
+    <string-array name="category_arrays">
+        <item>Hotels</item>
+        <item>Food</item>
+        <item>Clothing</item>
+    </string-array>
     <string name="item_text">Item Text</string>
     <string name="new_post">New post</string>
     <string name="search">Search</string>
