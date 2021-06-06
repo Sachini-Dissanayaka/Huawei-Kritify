@@ -16,4 +16,13 @@
     <string name="title_location_permission">Use location?</string>
     <string name="text_location_permission">Allow Kritify to access this device\'s location</string>
     <string name="ok">Yes</string>
+    <string name="add_site">Add Site</string>
+    <string name="set_location">Set location</string>
+    <string name="save_site">Save</string>
+    <string name="site_type">Site Type</string>
+    <string name="location">Location</string>
+    <string name="site_name">Site Name</string>
+    <string name="please_specify_a_location">Please specify a location</string>
+    <string name="please_select_a_type">Please select a type</string>
+    <string name="please_provide_a_name">Please provide a name</string>
 </resources>

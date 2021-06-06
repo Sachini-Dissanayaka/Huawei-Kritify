@@ -1,11 +1,14 @@
 package com.huawei.kritify.retrofit;
 
 import com.huawei.kritify.model.Post;
+import com.huawei.kritify.model.Site;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
@@ -16,6 +19,11 @@ public interface RetrofitInterface {
     @GET("/posts/{type}")
     Call<List<Post>> getPostsBySiteType(
             @Path("type") String type
+    );
+
+    @POST("/createSite")
+    Call<Void> createSite(
+            @Body Site site
     );
 
 }

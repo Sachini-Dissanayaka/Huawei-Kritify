@@ -14,9 +14,9 @@ public abstract class EntityType {
             CLOTHING_STORE
     })
     public @interface EntityTypeService {}
-    public static final String HOTEL = "HOTEL";
-    public static final String RESTAURANT = "RESTAURANT";
-    public static final String CLOTHING_STORE = "CLOTHING_STORE";
+    public static final String HOTEL = "Hotel";
+    public static final String RESTAURANT = "Restaurant";
+    public static final String CLOTHING_STORE = "Clothing Store";
 
     public abstract Object getEntityTypeService(@EntityTypeService String name);
 

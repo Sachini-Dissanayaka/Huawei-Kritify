@@ -21,6 +21,12 @@ public class Site implements Serializable {
         this.location = location;
     }
 
+    public Site(String name, String type, LocationCoordinate location) {
+        this.name = name;
+        this.type = type;
+        this.location = location;
+    }
+
     public int getId() {
         return id;
     }

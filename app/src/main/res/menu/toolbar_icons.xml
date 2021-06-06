@@ -7,6 +7,10 @@
         android:title="@string/my_account"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/add_site"
+        android:title="@string/add_site"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/action_help"
         android:title="@string/help"
         app:showAsAction="never"/>
