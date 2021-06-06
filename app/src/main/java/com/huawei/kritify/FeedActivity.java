@@ -2,7 +2,6 @@ package com.huawei.kritify;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuInflater;
@@ -28,7 +26,6 @@ import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
 import com.huawei.kritify.enums.EntityType;
 import com.huawei.kritify.enums.MenuType;
 import com.huawei.kritify.model.Post;
-import com.huawei.kritify.model.Site;
 import com.huawei.kritify.retrofit.RetrofitInstance;
 import com.huawei.kritify.retrofit.RetrofitInterface;
 
@@ -186,6 +183,7 @@ public class FeedActivity extends AppCompatActivity {
         });
     }
 
+    // get location permission
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED

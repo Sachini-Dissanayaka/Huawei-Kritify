@@ -86,7 +86,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
             entityName.setText(currentItem.getSite().getName());
 
             SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM d", Locale.getDefault());
-            time.setText(dateFormatter.format(new Date()));
+            time.setText(dateFormatter.format(currentItem.getTime()));
 
             review.setText(currentItem.getReview());
 
