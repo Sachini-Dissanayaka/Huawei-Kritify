@@ -2,10 +2,11 @@ package com.huawei.kritify.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Post {
+public class Post implements Serializable {
 
     @SerializedName("id")
     private int id;
@@ -37,11 +38,11 @@ public class Post {
         this.userName = userName;
     }
 
-    public Site getEntity() {
+    public Site getSite() {
         return site;
     }
 
-    public void setEntity(Site site) {
+    public void setSite(Site site) {
         this.site = site;
     }
 

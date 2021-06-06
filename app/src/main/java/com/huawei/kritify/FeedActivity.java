@@ -2,27 +2,33 @@ package com.huawei.kritify;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
 import com.huawei.kritify.enums.EntityType;
 import com.huawei.kritify.enums.MenuType;
 import com.huawei.kritify.model.Post;
+import com.huawei.kritify.model.Site;
 import com.huawei.kritify.retrofit.RetrofitInstance;
 import com.huawei.kritify.retrofit.RetrofitInterface;
 
@@ -37,6 +43,7 @@ import retrofit2.Response;
 public class FeedActivity extends AppCompatActivity {
 
     public static final String TAG = "FeedActivity";
+    public static final String FEED_KEY = "feedKey";
 
     private String selectedMenuItem = "All";
 
@@ -46,8 +53,12 @@ public class FeedActivity extends AppCompatActivity {
     ScrollMenuRecyclerViewAdapter scrollMenuRecyclerViewAdapter;
 
     RecyclerView recyclerViewFeed;
-    ArrayList<Post> posts;
     MainFeedRecyclerViewAdapter mainFeedRecyclerViewAdapter;
+
+    // retrofit to call REST API
+    RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
+
+    private Post locationClickedPost;
 
     ArrayAdapter<String> adapter;
 
@@ -96,39 +107,6 @@ public class FeedActivity extends AppCompatActivity {
 
         getInitialData();
 
-
-
-//        ArrayList<String> imageList = new ArrayList<>(Arrays.asList("https://nessarestaurant.com/wp-content/uploads/2018/11/Restaurant-Food.jpg", "https://cdn.designrulz.com/wp-content/uploads/2015/04/Joie-restaurant-_designrulz-1.jpg"));
-//        Location loc = new Location("dummyprovider");
-//        loc.setLatitude(20.3);
-//        loc.setLongitude(52.6);
-//        Site site1 = new Site(1, "Kingsbury Restaurant", EntityType.HOTEL, loc);
-//        Site site2 = new Site(1, "Ciara Hotel", EntityType.RESTAURANT, loc);
-//        Site site3 = new Site(1, "Symphony Hotel", EntityType.CLOTHING_STORE, loc);
-//
-//        posts = new ArrayList<>(Arrays.asList(
-//                new Post(1,
-//                        "Yoshani Ranaweera",
-//                        site1,
-//                        new Date(),
-//                        imageList,
-//                        "The food here is simply amazing! Go eat the world's most delicious food. You sure won't regret that!"),
-//                new Post(2,
-//                        "Sachini Dissanayaka",
-//                        site2,
-//                        new Date(),
-//                        imageList,
-//                        "The food here is simply amazing! You should totally check it out"),
-//                new Post(3,
-//                        "Daphne Waters",
-//                        site3,
-//                        new Date(),
-//                        imageList,
-//                        "The food here is simply amazing! You should totally check it out")
-//        ));
-
-
-
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
 //            public boolean onQueryTextSubmit(String query) {
@@ -151,11 +129,24 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     private void parseData(List<Post> body) {
-        mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, (ArrayList<Post>) body);
+        mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, (ArrayList<Post>) body, post -> {
+            locationClickedPost = post;
+            if (checkLocationPermission()) {
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission. ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    Intent locationIntent = new Intent(FeedActivity.this, FeedMapActivity.class);
+                    locationIntent.putExtra(FEED_KEY, post);
+                    startActivity(locationIntent);
+                }
+            }
+
+        });
         recyclerViewFeed.setAdapter(mainFeedRecyclerViewAdapter);
         mainFeedRecyclerViewAdapter.notifyDataSetChanged();
     }
 
+    // popup settings menu
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
@@ -165,7 +156,6 @@ public class FeedActivity extends AppCompatActivity {
 
     private void getInitialData() {
         // get data
-        RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
         Call<List<Post>> listCall = retrofitInterface.getAllPosts();
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
@@ -182,7 +172,6 @@ public class FeedActivity extends AppCompatActivity {
 
     private void getFilteredData(String type) {
         // get filtered data
-        RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
         Call<List<Post>> listCall = retrofitInterface.getPostsBySiteType(type);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
@@ -195,5 +184,43 @@ public class FeedActivity extends AppCompatActivity {
                 Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent locationIntent = new Intent(FeedActivity.this, FeedMapActivity.class);
+                    locationIntent.putExtra(FEED_KEY, locationClickedPost);
+                    startActivity(locationIntent);
+                }
+
+            } else {
+                Toast.makeText(FeedActivity.this, "Cannot open Huawei Maps", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

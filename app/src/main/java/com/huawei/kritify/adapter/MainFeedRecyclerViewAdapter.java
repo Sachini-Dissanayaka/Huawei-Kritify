@@ -17,7 +17,6 @@ import com.huawei.kritify.R;
 import com.huawei.kritify.model.Post;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -25,13 +24,19 @@ import java.util.Locale;
 public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "FeedRecyclerViewAdapter";
 
+    public interface OnItemClickListener {
+        void onItemClick(Post post);
+    }
+
     private ArrayList<Post> posts;
     private Context mContext;
+    private final OnItemClickListener listener;
 
     // data is passed into the constructor
-    public MainFeedRecyclerViewAdapter(Context context, ArrayList<Post> posts) {
+    public MainFeedRecyclerViewAdapter(Context context, ArrayList<Post> posts, OnItemClickListener listener) {
         this.mContext = context;
         this.posts = posts;
+        this.listener = listener;
     }
 
     // inflates the row layout from xml when needed, returns view holder
@@ -47,26 +52,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
     @Override
     public void onBindViewHolder(MainFeedRecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Called");
-        Post currentItem = posts.get(position);
-
-        holder.username.setText(currentItem.getUserName());
-        holder.entityName.setText(currentItem.getEntity().getName());
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM d", Locale.getDefault());
-        holder.time.setText(dateFormatter.format(new Date()));
-
-        //TODO: give location coordinates to icon
-        holder.review.setText(currentItem.getReview());
-
-        holder.imageRecyclerView.setLayoutManager(new LinearLayoutManager(
-                mContext, LinearLayoutManager.HORIZONTAL, false));
-        holder.imageRecyclerView.setHasFixedSize(true);
-
-        FeedImageRecyclerViewAdapter feedImageRecyclerViewAdapter
-                = new FeedImageRecyclerViewAdapter(
-                        mContext, currentItem.getImageUrls());
-
-        holder.imageRecyclerView.setAdapter(feedImageRecyclerViewAdapter);
+        holder.bind(posts.get(position), listener);
     }
 
     // total number of rows
@@ -77,7 +63,7 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
 
 
     // stores and recycles views as they are scrolled off screen
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView username;
         private TextView entityName;
         private TextView time;
@@ -93,6 +79,31 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
             location = itemView.findViewById(R.id.location_icon);
             imageRecyclerView = itemView.findViewById(R.id.imageRecyclerView);
             review = itemView.findViewById(R.id.review);
+        }
+
+        public void bind(final Post currentItem, final OnItemClickListener listener) {
+            username.setText(currentItem.getUserName());
+            entityName.setText(currentItem.getSite().getName());
+
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM d", Locale.getDefault());
+            time.setText(dateFormatter.format(new Date()));
+
+            review.setText(currentItem.getReview());
+
+            imageRecyclerView.setLayoutManager(new LinearLayoutManager(
+                    mContext, LinearLayoutManager.HORIZONTAL, false));
+            imageRecyclerView.setHasFixedSize(true);
+
+            FeedImageRecyclerViewAdapter feedImageRecyclerViewAdapter
+                    = new FeedImageRecyclerViewAdapter(
+                    mContext, currentItem.getImageUrls());
+
+            imageRecyclerView.setAdapter(feedImageRecyclerViewAdapter);
+
+            location.setOnClickListener(v -> {
+                listener.onItemClick(currentItem);
+                notifyDataSetChanged();
+            });
         }
     }
 }
