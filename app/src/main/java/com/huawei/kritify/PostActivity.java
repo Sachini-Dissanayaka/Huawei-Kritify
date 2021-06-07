@@ -2,11 +2,13 @@ package com.huawei.kritify;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity{
 
     //UI views
-    private Spinner spinner_category;
+//    private Spinner spinner_category;
     private ImageSwitcher imagesPost;
     private Button btnSubmit, btnPrevious, btnNext, btnPick;
     private EditText shop_name, description;
@@ -62,7 +64,7 @@ public class PostActivity extends AppCompatActivity{
         });
 
         addListenerOnButton();
-        addListenerOnSpinnerItemSelection();
+//        addListenerOnSpinnerItemSelection();
 
         //click handle, pick images
         btnPick.setOnClickListener(new View.OnClickListener(){
@@ -142,15 +144,22 @@ public class PostActivity extends AppCompatActivity{
         }
     }
 
-    public void addListenerOnSpinnerItemSelection() {
-        spinner_category = (Spinner) findViewById(R.id.spinner_category);
-        spinner_category.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    // popup settings menu
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.toolbar_icons, popup.getMenu());
+        popup.show();
     }
+//    public void addListenerOnSpinnerItemSelection() {
+//        spinner_category = (Spinner) findViewById(R.id.spinner_category);
+//        spinner_category.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+//    }
 
     // get the selected dropdown list value
     public void addListenerOnButton() {
 
-        spinner_category = (Spinner) findViewById(R.id.spinner_category);
+//        spinner_category = (Spinner) findViewById(R.id.spinner_category);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
@@ -162,9 +171,10 @@ public class PostActivity extends AppCompatActivity{
                         "OnClickListener : " +
                                 "\nshop_name : "+ shop_name.getText().toString()+
                                 "\ndescription : "+ description.getText().toString()+
-                                "\nspinner_category : "+ String.valueOf(spinner_category.getSelectedItem())+
                                 "\nimages_urls : "+String.valueOf(imageUris),
                         Toast.LENGTH_SHORT).show();
+//                "\nspinner_category : "+ String.valueOf(spinner_category.getSelectedItem())+
+                startActivity(new Intent(getApplicationContext(), FeedActivity.class));
             }
 
         });
