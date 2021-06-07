@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -24,6 +25,7 @@ public class PostActivity extends AppCompatActivity{
     private Spinner spinner_category;
     private ImageSwitcher imagesPost;
     private Button btnSubmit, btnPrevious, btnNext, btnPick;
+    private EditText shop_name, description;
 
     //store image urls in this array list
     private ArrayList<Uri> imageUris;
@@ -40,6 +42,8 @@ public class PostActivity extends AppCompatActivity{
         setContentView(R.layout.activity_post);
 
         //init UI views
+        shop_name = (EditText) findViewById(R.id.shop_name);
+        description = (EditText) findViewById(R.id.description);
         imagesPost = (ImageSwitcher) findViewById(R.id.imagesPost);
         btnPrevious = (Button) findViewById(R.id.btnPrevious);
         btnNext = (Button) findViewById(R.id.btnNext);
@@ -156,7 +160,10 @@ public class PostActivity extends AppCompatActivity{
 
                 Toast.makeText(PostActivity.this,
                         "OnClickListener : " +
-                                "\nspinner_category : "+ String.valueOf(spinner_category.getSelectedItem()),
+                                "\nshop_name : "+ shop_name.getText().toString()+
+                                "\ndescription : "+ description.getText().toString()+
+                                "\nspinner_category : "+ String.valueOf(spinner_category.getSelectedItem())+
+                                "\nimages_urls : "+String.valueOf(imageUris),
                         Toast.LENGTH_SHORT).show();
             }
 
