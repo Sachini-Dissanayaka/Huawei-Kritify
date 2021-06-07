@@ -21,6 +21,11 @@ public interface RetrofitInterface {
             @Path("type") String type
     );
 
+    @GET("/postsBySite/{siteId}")
+    Call<List<Post>> getPostsBySite(
+            @Path("siteId") long siteId
+    );
+
     @GET("/sitesByTypeAndName/{type}/{name}")
     Call<List<Post>> getSitesByTypeAndName(
             @Path("type") String type,
