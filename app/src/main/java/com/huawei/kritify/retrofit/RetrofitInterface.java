@@ -21,6 +21,17 @@ public interface RetrofitInterface {
             @Path("type") String type
     );
 
+    @GET("/sitesByTypeAndName/{type}/{name}")
+    Call<List<Post>> getSitesByTypeAndName(
+            @Path("type") String type,
+            @Path("name") String name
+    );
+
+    @GET("/sitesByName/{name}")
+    Call<List<Post>> getSitesByName(
+            @Path("name") String name
+    );
+
     @POST("/createSite")
     Call<Void> createSite(
             @Body Site site
