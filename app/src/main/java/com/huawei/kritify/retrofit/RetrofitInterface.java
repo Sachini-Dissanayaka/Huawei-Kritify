@@ -27,13 +27,13 @@ public interface RetrofitInterface {
     );
 
     @GET("/sitesByTypeAndName/{type}/{name}")
-    Call<List<Post>> getSitesByTypeAndName(
+    Call<List<Site>> getSitesByTypeAndName(
             @Path("type") String type,
             @Path("name") String name
     );
 
     @GET("/sitesByName/{name}")
-    Call<List<Post>> getSitesByName(
+    Call<List<Site>> getSitesByName(
             @Path("name") String name
     );
 
