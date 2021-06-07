@@ -9,7 +9,7 @@ import java.util.Date;
 public class Post implements Serializable {
 
     @SerializedName("id")
-    private int id;
+    private long id;
     @SerializedName("userName")
     private String userName;
     @SerializedName("site")
@@ -21,13 +21,21 @@ public class Post implements Serializable {
     @SerializedName("review")
     private String review;
 
-    public Post(int id, String userName, Site site, Date time, ArrayList<String> imageUrls, String review) {
+    public Post(long id, String userName, Site site, Date time, ArrayList<String> imageUrls, String review) {
         this.id = id;
         this.userName = userName;
         this.site = site;
         this.time = time;
         this.imageUrls = imageUrls;
         this.review = review;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUserName() {

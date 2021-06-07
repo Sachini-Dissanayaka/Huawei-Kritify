@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -152,13 +154,16 @@ public class SiteActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 Log.d(TAG, t.toString());
                 call.cancel();
-                new AlertDialog.Builder(SiteActivity.this)
-                        .setTitle("Warning")
-                        .setMessage("Site was not saved")
+                AlertDialog dialog = new AlertDialog.Builder(SiteActivity.this)
+                        .setTitle("")
+                        .setMessage("Oops! Something is wrong\n\nSite was not saved")
                         .setPositiveButton("OK", (dialogInterface, i) -> {
                         })
-                        .create()
-                        .show();
+                        .create();
+                dialog.setOnShowListener(arg0 ->
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#5E75F6")));
+
+                dialog.show();
             }
         });
     }

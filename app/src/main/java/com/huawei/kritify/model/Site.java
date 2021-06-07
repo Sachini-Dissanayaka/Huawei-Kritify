@@ -1,12 +1,14 @@
 package com.huawei.kritify.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 public class Site implements Serializable {
     @SerializedName("id")
-    private int id;
+    private long id;
     @SerializedName("name")
     private String name;
     @SerializedName("type")
@@ -14,7 +16,7 @@ public class Site implements Serializable {
     @SerializedName("location")
     private LocationCoordinate location;
 
-    public Site(int id, String name, String type, LocationCoordinate location) {
+    public Site(long id, String name, String type, LocationCoordinate location) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -27,11 +29,11 @@ public class Site implements Serializable {
         this.location = location;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -57,5 +59,11 @@ public class Site implements Serializable {
 
     public void setLocation(LocationCoordinate location) {
         this.location = location;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
     }
 }
