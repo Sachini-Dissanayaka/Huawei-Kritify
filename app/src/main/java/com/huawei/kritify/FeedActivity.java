@@ -15,7 +15,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
@@ -37,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
 
     public static final String TAG = "FeedActivity";
     public static final String FEED_KEY = "feedKey";
@@ -56,6 +58,7 @@ public class FeedActivity extends AppCompatActivity {
     RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
 
     private Post locationClickedPost;
+    private boolean clickedAddSite = false;
 
     ArrayAdapter<String> adapter;
 
@@ -128,7 +131,7 @@ public class FeedActivity extends AppCompatActivity {
     private void parseData(List<Post> body) {
         mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, (ArrayList<Post>) body, post -> {
             locationClickedPost = post;
-            if (checkLocationPermission()) {
+            if (!clickedAddSite && checkLocationPermission()) {
                 if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission. ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
@@ -146,9 +149,27 @@ public class FeedActivity extends AppCompatActivity {
     // popup settings menu
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(this);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.toolbar_icons, popup.getMenu());
         popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        // Handle item selection
+        if (item.getItemId() == R.id.add_site) {
+            clickedAddSite = true;
+            if (checkLocationPermission()) {
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission. ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(FeedActivity.this, SiteActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getInitialData() {
@@ -208,14 +229,17 @@ public class FeedActivity extends AppCompatActivity {
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 if (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-
-                    Intent locationIntent = new Intent(FeedActivity.this, FeedMapActivity.class);
-                    locationIntent.putExtra(FEED_KEY, locationClickedPost);
-                    startActivity(locationIntent);
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    if (clickedAddSite) {
+                        clickedAddSite = false;
+                        Intent intent = new Intent(FeedActivity.this, SiteActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent locationIntent = new Intent(FeedActivity.this, FeedMapActivity.class);
+                        locationIntent.putExtra(FEED_KEY, locationClickedPost);
+                        startActivity(locationIntent);
+                    }
                 }
-
             } else {
                 Toast.makeText(FeedActivity.this, "Cannot open Huawei Maps", Toast.LENGTH_LONG).show();
             }
