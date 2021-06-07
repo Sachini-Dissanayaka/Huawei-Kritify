@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
@@ -27,7 +29,8 @@ public class PostActivity extends AppCompatActivity{
 //    private Spinner spinner_category;
     private ImageSwitcher imagesPost;
     private Button btnSubmit, btnPrevious, btnNext, btnPick;
-    private EditText shop_name, description;
+    private EditText description;
+    private AutoCompleteTextView shop_name;
 
     //store image urls in this array list
     private ArrayList<Uri> imageUris;
@@ -44,12 +47,14 @@ public class PostActivity extends AppCompatActivity{
         setContentView(R.layout.activity_post);
 
         //init UI views
-        shop_name = (EditText) findViewById(R.id.shop_name);
+//        shop_name = (EditText) findViewById(R.id.shop_name);
         description = (EditText) findViewById(R.id.description);
         imagesPost = (ImageSwitcher) findViewById(R.id.imagesPost);
         btnPrevious = (Button) findViewById(R.id.btnPrevious);
         btnNext = (Button) findViewById(R.id.btnNext);
         btnPick = (Button) findViewById(R.id.btnPick);
+        // Get a reference to the AutoCompleteTextView in the layout
+        shop_name = (AutoCompleteTextView) findViewById(R.id.autocomplete_shop_name);
 
         //init list
         imageUris = new ArrayList<>();
@@ -63,6 +68,7 @@ public class PostActivity extends AppCompatActivity{
             }
         });
 
+        addListenerOnShopItemSelection();
         addListenerOnButton();
 //        addListenerOnSpinnerItemSelection();
 
@@ -151,6 +157,16 @@ public class PostActivity extends AppCompatActivity{
         inflater.inflate(R.menu.toolbar_icons, popup.getMenu());
         popup.show();
     }
+
+    public void addListenerOnShopItemSelection(){
+        // Get the string array
+        String[] shops = getResources().getStringArray(R.array.shops_array);
+        // Create the adapter and set it to the AutoCompleteTextView
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, shops);
+        shop_name.setAdapter(adapter);
+    }
+
 //    public void addListenerOnSpinnerItemSelection() {
 //        spinner_category = (Spinner) findViewById(R.id.spinner_category);
 //        spinner_category.setOnItemSelectedListener(new CustomOnItemSelectedListener());
@@ -159,7 +175,7 @@ public class PostActivity extends AppCompatActivity{
     // get the selected dropdown list value
     public void addListenerOnButton() {
 
-//        spinner_category = (Spinner) findViewById(R.id.spinner_category);
+        //spinner_category = (Spinner) findViewById(R.id.spinner_category);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
@@ -174,6 +190,7 @@ public class PostActivity extends AppCompatActivity{
                                 "\nimages_urls : "+String.valueOf(imageUris),
                         Toast.LENGTH_SHORT).show();
 //                "\nspinner_category : "+ String.valueOf(spinner_category.getSelectedItem())+
+                finish();
                 startActivity(new Intent(getApplicationContext(), FeedActivity.class));
             }
 

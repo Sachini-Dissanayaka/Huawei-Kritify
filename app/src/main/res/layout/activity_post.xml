@@ -82,8 +82,8 @@
                     android:textColor="#2239BC"
                     android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/shop_name"
+                <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/autocomplete_shop_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -91,6 +91,16 @@
                     android:hint="shop name"
                     android:padding="10dp"
                     android:textSize="18sp" />
+
+<!--                <EditText-->
+<!--                    android:id="@+id/shop_name"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:background="@drawable/edit_round"-->
+<!--                    android:hint="shop name"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:textSize="18sp" />-->
 
 <!--                <TextView-->
 <!--                    android:layout_width="match_parent"-->

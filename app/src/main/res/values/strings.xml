@@ -31,6 +31,18 @@
     <string name="title_location_permission">Use location?</string>
     <string name="text_location_permission">Allow Kritify to access this device\'s location</string>
     <string name="ok">Yes</string>
+
+    <string-array name="shops_array">
+        <item>Sachi_market</item>
+        <item>Sashi_shop</item>
+        <item>Yoshi_food</item>
+        <item>Food_for_you</item>
+        <item>Hotel_sashi</item>
+        <item>Fashion_Hub</item>
+        <item>Hotel_Sachi</item>
+        <item>Hungry</item>
+    </string-array>
+
     <string name="add_site">Add Site</string>
     <string name="set_location">Set location</string>
     <string name="save_site">Save</string>
