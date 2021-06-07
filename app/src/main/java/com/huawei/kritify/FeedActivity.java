@@ -128,6 +128,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         return super.dispatchTouchEvent(event);
     }
 
+    // sets data for main feed
     private void parseData(List<Post> body) {
         mainFeedRecyclerViewAdapter = new MainFeedRecyclerViewAdapter(this, (ArrayList<Post>) body, post -> {
             locationClickedPost = post;
