@@ -97,6 +97,7 @@ public class PostActivity extends AppCompatActivity {
 
         //get tool bar
         setSupportActionBar(toolbar);
+        toolbar.setTitle("");
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         //init list
