@@ -2,7 +2,7 @@
     <string name="app_name">Kritify</string>
     <string name="create_post">Create Post</string>
     <string name="post_shop_name">Shop Name :</string>
-    <string name="post_category">Category :</string>
+    <string name="post_username">Your Name :</string>
     <string name="post_description">Description :</string>
     <string name="post_submit">Submit</string>
     <string name="post_previous">Previous</string>

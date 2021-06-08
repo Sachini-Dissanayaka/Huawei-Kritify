@@ -1,12 +1,14 @@
 package com.huawei.kritify;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.View;
@@ -19,18 +21,27 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.ViewSwitcher;
+
+import com.huawei.kritify.retrofit.RetrofitInstance;
+import com.huawei.kritify.retrofit.RetrofitInterface;
 
 import java.util.ArrayList;
 
-public class PostActivity extends AppCompatActivity{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class PostActivity extends AppCompatActivity {
 
     //UI views
 //    private Spinner spinner_category;
     private ImageSwitcher imagesPost;
     private Button btnSubmit, btnPrevious, btnNext, btnPick;
-    private EditText description;
+    private EditText username,description;
     private AutoCompleteTextView shop_name;
+    private Toolbar toolbar;
 
     //store image urls in this array list
     private ArrayList<Uri> imageUris;
@@ -41,18 +52,26 @@ public class PostActivity extends AppCompatActivity{
     //position of selected image
     int position = 0;
 
+    // retrofit to call REST API
+    RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
         //init UI views
-//        shop_name = (EditText) findViewById(R.id.shop_name);
+        username = (EditText) findViewById(R.id.username);
         description = (EditText) findViewById(R.id.description);
         imagesPost = (ImageSwitcher) findViewById(R.id.imagesPost);
         btnPrevious = (Button) findViewById(R.id.btnPrevious);
         btnNext = (Button) findViewById(R.id.btnNext);
         btnPick = (Button) findViewById(R.id.btnPick);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         // Get a reference to the AutoCompleteTextView in the layout
         shop_name = (AutoCompleteTextView) findViewById(R.id.autocomplete_shop_name);
 
@@ -70,7 +89,6 @@ public class PostActivity extends AppCompatActivity{
 
         addListenerOnShopItemSelection();
         addListenerOnButton();
-//        addListenerOnSpinnerItemSelection();
 
         //click handle, pick images
         btnPick.setOnClickListener(new View.OnClickListener(){
@@ -150,14 +168,7 @@ public class PostActivity extends AppCompatActivity{
         }
     }
 
-    // popup settings menu
-    public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.toolbar_icons, popup.getMenu());
-        popup.show();
-    }
-
+    //shop name selection
     public void addListenerOnShopItemSelection(){
         // Get the string array
         String[] shops = getResources().getStringArray(R.array.shops_array);
@@ -167,15 +178,8 @@ public class PostActivity extends AppCompatActivity{
         shop_name.setAdapter(adapter);
     }
 
-//    public void addListenerOnSpinnerItemSelection() {
-//        spinner_category = (Spinner) findViewById(R.id.spinner_category);
-//        spinner_category.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-//    }
-
-    // get the selected dropdown list value
     public void addListenerOnButton() {
 
-        //spinner_category = (Spinner) findViewById(R.id.spinner_category);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         btnSubmit.setOnClickListener(new OnClickListener() {
@@ -185,11 +189,11 @@ public class PostActivity extends AppCompatActivity{
 
                 Toast.makeText(PostActivity.this,
                         "OnClickListener : " +
+                                "\nuser_name : "+ username.getText().toString()+
                                 "\nshop_name : "+ shop_name.getText().toString()+
                                 "\ndescription : "+ description.getText().toString()+
-                                "\nimages_urls : "+String.valueOf(imageUris),
+                                "\nimages_urls : "+ imageUris.toString(),
                         Toast.LENGTH_SHORT).show();
-//                "\nspinner_category : "+ String.valueOf(spinner_category.getSelectedItem())+
                 finish();
                 startActivity(new Intent(getApplicationContext(), FeedActivity.class));
             }

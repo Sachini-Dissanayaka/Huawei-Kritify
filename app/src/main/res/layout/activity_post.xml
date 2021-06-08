@@ -7,6 +7,7 @@
     tools:context=".PostActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,13 +20,8 @@
             android:layout_height="wrap_content"
             android:background="@color/black"
             android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_menu"
-                android:onClick="showPopup" />
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:navigationIcon="@drawable/ic_back_button">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,6 +74,25 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginTop="40dp"
+                    android:text="@string/post_username"
+                    android:textColor="#2239BC"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edit_round"
+                    android:hint="user name"
+                    android:padding="10dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="15dp"
                     android:text="@string/post_shop_name"
                     android:textColor="#2239BC"
                     android:textSize="18sp" />
@@ -91,25 +106,6 @@
                     android:hint="shop name"
                     android:padding="10dp"
                     android:textSize="18sp" />
-
-<!--                <EditText-->
-<!--                    android:id="@+id/shop_name"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="@drawable/edit_round"-->
-<!--                    android:hint="shop name"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:textSize="18sp" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="start"-->
-<!--                    android:layout_marginTop="15dp"-->
-<!--                    android:text="@string/post_category"-->
-<!--                    android:textColor="#2239BC"-->
-<!--                    android:textSize="18sp" />-->
 
 <!--                <Spinner-->
 <!--                    android:id="@+id/spinner_category"-->

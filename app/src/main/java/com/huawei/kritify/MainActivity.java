@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity{
                 // The sign-in is successful, and the user's ID information and ID token are obtained.
                 AuthAccount authAccount = authAccountTask.getResult();
                 Log.i(TAG, "idToken:" + authAccount.getIdToken());
+                Toast.makeText(this, "idToken:" + authAccount.getIdToken(), Toast.LENGTH_LONG).show();
                 // Obtain the ID type (0: HUAWEI ID; 1: AppTouch ID).
                 Log.i(TAG, "accountFlag:" + authAccount.getAccountFlag());
 

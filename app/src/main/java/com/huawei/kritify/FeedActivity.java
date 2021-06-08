@@ -223,6 +223,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                Log.e(TAG,"Load Error:" + t.toString());
                 Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
