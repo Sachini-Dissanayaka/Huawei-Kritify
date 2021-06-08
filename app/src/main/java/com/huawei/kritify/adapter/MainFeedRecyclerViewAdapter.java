@@ -88,16 +88,19 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
 
             review.setText(currentItem.getReview());
 
-            imageRecyclerView.setLayoutManager(new LinearLayoutManager(
-                    mContext, LinearLayoutManager.HORIZONTAL, false));
-            imageRecyclerView.setHasFixedSize(true);
+            if (currentItem.getImageUrls().size() != 0) {
+                imageRecyclerView.setLayoutManager(new LinearLayoutManager(
+                        mContext, LinearLayoutManager.HORIZONTAL, false));
+                imageRecyclerView.setHasFixedSize(true);
 
-            FeedImageRecyclerViewAdapter feedImageRecyclerViewAdapter
-                    = new FeedImageRecyclerViewAdapter(
-                    mContext, currentItem.getImageUrls());
+                FeedImageRecyclerViewAdapter feedImageRecyclerViewAdapter
+                        = new FeedImageRecyclerViewAdapter(
+                        mContext, currentItem.getImageUrls());
 
-            imageRecyclerView.setAdapter(feedImageRecyclerViewAdapter);
-
+                imageRecyclerView.setAdapter(feedImageRecyclerViewAdapter);
+            } else {
+                imageRecyclerView.setVisibility(View.GONE);
+            }
             location.setOnClickListener(v -> {
                 listener.onItemClick(currentItem);
                 notifyDataSetChanged();
