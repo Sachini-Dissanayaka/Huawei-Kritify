@@ -360,6 +360,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     }
                 }
             } else {
+                clickedAddSite = false;
                 Toast.makeText(FeedActivity.this, "Cannot open Huawei Maps", Toast.LENGTH_LONG).show();
             }
         }
