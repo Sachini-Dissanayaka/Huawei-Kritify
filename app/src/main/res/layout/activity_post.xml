@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:padding="30dp">
 
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="3"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
@@ -89,6 +89,17 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/errorUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/error_username"
+                    android:textColor="@color/hwid_auth_button_color_red"
+                    android:textSize="18sp" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -107,16 +118,16 @@
                     android:padding="10dp"
                     android:textSize="18sp" />
 
-<!--                <Spinner-->
-<!--                    android:id="@+id/spinner_category"-->
-<!--                    style="@style/SpinnerTheme"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="@drawable/edit_round"-->
-<!--                    android:entries="@array/category_arrays"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:prompt="@string/category_prompt" />-->
+                <TextView
+                    android:id="@+id/errorSite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/error_site"
+                    android:textColor="@color/hwid_auth_button_color_red"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -137,6 +148,17 @@
                     android:hint="description"
                     android:inputType="textMultiLine"
                     android:padding="10dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/errorReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/error_review"
+                    android:textColor="@color/hwid_auth_button_color_red"
                     android:textSize="18sp" />
 
                 <Button
