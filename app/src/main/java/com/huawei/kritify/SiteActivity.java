@@ -68,8 +68,8 @@ public class SiteActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationError = findViewById(R.id.site_location_error);
         save = findViewById(R.id.saveButton);
 
-        setSupportActionBar(toolbar);
         toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         save.setOnClickListener(v -> saveSite());

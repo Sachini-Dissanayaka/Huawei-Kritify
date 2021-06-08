@@ -95,8 +95,8 @@ public class PostActivity extends AppCompatActivity {
         errorReview = findViewById(R.id.errorReview);
 
         //get tool bar
-        setSupportActionBar(toolbar);
         toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         //init list
