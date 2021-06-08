@@ -18,18 +18,20 @@ public class AboutActivity  extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 
         //get tool bar
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         aboutUs = findViewById(R.id.aboutUs);
-        aboutUs.setText("We are team SYsters from\n" +
-                "University of Moratuwa, Sri Lanaka.\n" +
+        String description = "We are Team SYsters from\n" +
+                "University of Moratuwa, Sri Lanka.\n" +
                 "\n" +
                 "Contact us:\n" +
                 "\n"+
                 "Yoshani Ranaweera - yoshani.malinka@gmail.com\n" +
                 "\n"+
-                "Sachini Dissanayaka - dmsachiniacc@gmail.com");
+                "Sachini Dissanayaka - dmsachiniacc@gmail.com";
+        aboutUs.setText(description);
 
     }
 }
