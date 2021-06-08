@@ -74,7 +74,6 @@ public class PostActivity extends AppCompatActivity {
     // retrofit to call REST API
     RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,18 +81,18 @@ public class PostActivity extends AppCompatActivity {
 
         //init UI views
         constraintLayout = findViewById(R.id.parent);
-        username = (EditText) findViewById(R.id.username);
-        description = (EditText) findViewById(R.id.description);
-        imagesPost = (ImageSwitcher) findViewById(R.id.imagesPost);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        btnPrevious = (Button) findViewById(R.id.btnPrevious);
-        btnNext = (Button) findViewById(R.id.btnNext);
-        btnPick = (Button) findViewById(R.id.btnPick);
-        shop_name = (AutoCompleteTextView) findViewById(R.id.autocomplete_shop_name);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        errorUsername = (TextView) findViewById(R.id.errorUsername);
-        errorSite = (TextView) findViewById(R.id.errorSite);
-        errorReview = (TextView) findViewById(R.id.errorReview);
+        username = findViewById(R.id.username);
+        description = findViewById(R.id.description);
+        imagesPost = findViewById(R.id.imagesPost);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnPrevious = findViewById(R.id.btnPrevious);
+        btnNext = findViewById(R.id.btnNext);
+        btnPick = findViewById(R.id.btnPick);
+        shop_name = findViewById(R.id.autocomplete_shop_name);
+        toolbar = findViewById(R.id.toolbar);
+        errorUsername = findViewById(R.id.errorUsername);
+        errorSite = findViewById(R.id.errorSite);
+        errorReview = findViewById(R.id.errorReview);
 
         //get tool bar
         setSupportActionBar(toolbar);
