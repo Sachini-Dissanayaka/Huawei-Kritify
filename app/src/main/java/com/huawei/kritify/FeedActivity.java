@@ -2,6 +2,7 @@ package com.huawei.kritify;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -27,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -62,6 +64,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     RecyclerView recyclerViewFeed;
     MainFeedRecyclerViewAdapter mainFeedRecyclerViewAdapter;
+    ImageView errorImage;
 
     // retrofit to call REST API
     RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
@@ -84,6 +87,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerViewMenu = findViewById(R.id.menuRecyclerView);
         search = findViewById(R.id.search);
         recyclerViewFeed = findViewById(R.id.feedRecyclerView);
+        errorImage = findViewById(R.id.errorImage);
 
         recyclerViewMenu.setLayoutManager(new LinearLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false));
@@ -227,11 +231,13 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                hideErrorImage();
                 parseData(response.body());
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                showErrorImage();
                 Log.e(TAG,"Load Error:" + t.toString());
                 Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
@@ -245,11 +251,13 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                hideErrorImage();
                 parseData(response.body());
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                showErrorImage();
                 Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
@@ -308,6 +316,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                hideErrorImage();
                 parseData(response.body());
                 if (response.body() != null) {
                     Log.d("Search", response.body().toString());
@@ -317,6 +326,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                showErrorImage();
                 Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
@@ -376,5 +386,15 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             default:
                 return "";
         }
+    }
+
+    public void showErrorImage() {
+        recyclerViewFeed.setVisibility(View.GONE);
+        errorImage.setVisibility(View.VISIBLE);
+    }
+
+    public void hideErrorImage() {
+        errorImage.setVisibility(View.GONE);
+        recyclerViewFeed.setVisibility(View.VISIBLE);
     }
 }

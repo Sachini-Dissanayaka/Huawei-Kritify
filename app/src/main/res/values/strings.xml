@@ -57,4 +57,5 @@
     <string name="error_review">Please provide a review</string>
     <string name="search_site">Search site</string>
     <string name="search_icon">search_icon</string>
+    <string name="error_image">error image</string>
 </resources>
