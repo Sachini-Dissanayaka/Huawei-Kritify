@@ -175,6 +175,10 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 }
             }
         }
+        if (item.getItemId() == R.id.action_about_us) {
+            Intent intent = new Intent(FeedActivity.this, AboutActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
