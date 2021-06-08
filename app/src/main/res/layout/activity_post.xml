@@ -52,12 +52,13 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:text="@string/create_post"
-            android:textColor="#12248A"
+            android:textColor="#5E75F6"
             android:textSize="30dp" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbarThumbVertical="@android:color/transparent"
             android:fillViewport="true">
 
             <LinearLayout
@@ -75,7 +76,7 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="40dp"
                     android:text="@string/post_username"
-                    android:textColor="#2239BC"
+                    android:textColor="#5E75F6"
                     android:textSize="18sp" />
 
                 <EditText
@@ -105,7 +106,7 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="15dp"
                     android:text="@string/post_shop_name"
-                    android:textColor="#2239BC"
+                    android:textColor="#5E75F6"
                     android:textSize="18sp" />
 
                 <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -135,7 +136,7 @@
                     android:layout_gravity="start"
                     android:layout_marginTop="15dp"
                     android:text="@string/post_description"
-                    android:textColor="#2239BC"
+                    android:textColor="#5E75F6"
                     android:textSize="18sp" />
 
                 <EditText
@@ -168,6 +169,7 @@
                     android:layout_marginTop="40dp"
                     android:background="@drawable/button_round"
                     android:text="@string/post_pick"
+                    android:textColor="@color/white"
                     android:textSize="20dp" />
 
                 <ImageSwitcher
@@ -187,6 +189,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/post_previous"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_round"
                         android:textSize="20dp" />
 
                     <Button
@@ -196,6 +200,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="10dp"
                         android:text="@string/post_next"
+                        android:background="@drawable/button_round"
+                        android:textColor="@color/white"
                         android:textSize="20dp" />
 
                 </RelativeLayout>
@@ -207,6 +213,7 @@
                     android:layout_marginTop="40dp"
                     android:background="@drawable/button_round"
                     android:text="@string/post_submit"
+                    android:textColor="@color/white"
                     android:textSize="20dp" />
 
                 <TextView
