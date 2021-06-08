@@ -30,6 +30,7 @@
         tools:targetApi="n">
         <activity android:name=".SiteActivity"/>
         <activity android:name=".FeedMapActivity"/>
+        <activity android:name=".PostActivity"/>
         <activity android:name=".FeedActivity"/>
         <activity android:name=".MainActivity">
              <intent-filter>

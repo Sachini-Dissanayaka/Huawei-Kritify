@@ -30,6 +30,13 @@ public class Post implements Serializable {
         this.review = review;
     }
 
+    public Post(String userName, Site site,ArrayList<String> imageUrls, String review) {
+        this.userName = userName;
+        this.site = site;
+        this.imageUrls = imageUrls;
+        this.review = review;
+    }
+
     public long getId() {
         return id;
     }

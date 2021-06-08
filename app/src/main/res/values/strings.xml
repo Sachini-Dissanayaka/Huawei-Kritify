@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">Kritify</string>
+    <string name="create_post">Create Post</string>
+    <string name="post_shop_name">Shop Name :</string>
+    <string name="post_username">Your Name :</string>
+    <string name="post_description">Description :</string>
+    <string name="post_submit">Submit</string>
+    <string name="post_previous">Previous</string>
+    <string name="post_next">Next</string>
+    <string name="post_pick">Pick Images</string>
+    <string name="category_prompt">Choose a Category</string>
+
+    <string-array name="category_arrays">
+        <item>Hotels</item>
+        <item>Food</item>
+        <item>Clothing</item>
+    </string-array>
     <string name="item_text">Item Text</string>
     <string name="new_post">New post</string>
     <string name="search">Search</string>
@@ -16,6 +31,18 @@
     <string name="title_location_permission">Use location?</string>
     <string name="text_location_permission">Allow Kritify to access this device\'s location</string>
     <string name="ok">Yes</string>
+
+    <string-array name="shops_array">
+        <item>Sachi_market</item>
+        <item>Sashi_shop</item>
+        <item>Yoshi_food</item>
+        <item>Food_for_you</item>
+        <item>Hotel_sashi</item>
+        <item>Fashion_Hub</item>
+        <item>Hotel_Sachi</item>
+        <item>Hungry</item>
+    </string-array>
+
     <string name="add_site">Add Site</string>
     <string name="set_location">Set location</string>
     <string name="save_site">Save</string>
@@ -25,6 +52,9 @@
     <string name="please_specify_a_location">Please specify a location</string>
     <string name="please_select_a_type">Please select a type</string>
     <string name="please_provide_a_name">Please provide a name</string>
+    <string name="error_username">Please provide your name</string>
+    <string name="error_site">Please select a shop</string>
+    <string name="error_review">Please provide a review</string>
     <string name="search_site">Search site</string>
     <string name="search_icon">search_icon</string>
 </resources>

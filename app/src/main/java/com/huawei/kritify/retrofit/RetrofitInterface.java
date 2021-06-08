@@ -42,5 +42,10 @@ public interface RetrofitInterface {
             @Body Site site
     );
 
+    @POST("/createPost")
+    Call<Void> createPost(
+            @Body Post post
+    );
+
 }
 

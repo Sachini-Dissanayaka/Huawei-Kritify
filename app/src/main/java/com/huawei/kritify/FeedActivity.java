@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
 import com.huawei.kritify.enums.EntityType;
@@ -53,6 +54,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     private String selectedMenuItem = "All";
 
+    FloatingActionButton fab;
     AutoCompleteTextView search;
     RecyclerView recyclerViewMenu;
     ArrayList<String> menuItems;
@@ -75,6 +77,14 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), PostActivity.class));
+            }
+        });
 
         recyclerViewMenu = findViewById(R.id.menuRecyclerView);
         search = findViewById(R.id.search);
@@ -223,6 +233,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                Log.e(TAG,"Load Error:" + t.toString());
                 Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
