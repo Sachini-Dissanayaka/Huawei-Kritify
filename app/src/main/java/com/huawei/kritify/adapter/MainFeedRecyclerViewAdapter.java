@@ -47,7 +47,6 @@ public class MainFeedRecyclerViewAdapter extends RecyclerView.Adapter<MainFeedRe
     }
 
     // binds the data to each feed item
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(MainFeedRecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Called");
