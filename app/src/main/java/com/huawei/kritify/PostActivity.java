@@ -2,39 +2,30 @@ package com.huawei.kritify;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.widget.ViewSwitcher;
-
-import com.google.android.material.snackbar.Snackbar;
 import com.huawei.kritify.model.Post;
 import com.huawei.kritify.model.Site;
 import com.huawei.kritify.retrofit.RetrofitInstance;
@@ -104,50 +95,33 @@ public class PostActivity extends AppCompatActivity {
         imageUrls = new ArrayList<>();
 
         //setup image switcher
-        imagesPost.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView imageView = new ImageView(getApplicationContext());
-                return imageView;
-            }
-        });
+        imagesPost.setFactory(() -> new ImageView(getApplicationContext()));
 
         // search shop names
         initSearch();
 
         //click handle, pick images
-        btnPick.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                pickImagesIntent();
-            }
-        });
+        btnPick.setOnClickListener(v -> pickImagesIntent());
 
         //click handle, show previous image
-        btnPrevious.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if (position > 0){
-                    position--;
-                    imagesPost.setImageURI(imageUris.get(position));
-                }
-                else {
-                    Toast.makeText(PostActivity.this,"No Previous images...",Toast.LENGTH_SHORT).show();
-                }
+        btnPrevious.setOnClickListener(v -> {
+            if (position > 0){
+                position--;
+                imagesPost.setImageURI(imageUris.get(position));
+            }
+            else {
+                Toast.makeText(PostActivity.this,"No Previous images...",Toast.LENGTH_SHORT).show();
             }
         });
 
         //click handle, show next image
-        btnNext.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if (position < imageUris.size() - 1){
-                    position++;
-                    imagesPost.setImageURI(imageUris.get(position));
-                }
-                else {
-                    Toast.makeText(PostActivity.this,"No More images...",Toast.LENGTH_SHORT).show();
-                }
+        btnNext.setOnClickListener(v -> {
+            if (position < imageUris.size() - 1){
+                position++;
+                imagesPost.setImageURI(imageUris.get(position));
+            }
+            else {
+                Toast.makeText(PostActivity.this,"No More images...",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -225,7 +199,7 @@ public class PostActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGES_CODE){
             if (resultCode == Activity.RESULT_OK){
-                if (data.getClipData() != null){
+                if (data != null && data.getClipData() != null){
                     //picked multiple images
 
                     int cout= data.getClipData().getItemCount(); //number of picked images
@@ -286,10 +260,6 @@ public class PostActivity extends AppCompatActivity {
             errorReview.setVisibility(View.GONE);
         }
         return errors;
-    }
-
-    private void showSnackBar() {
-        Snackbar.make(constraintLayout, "Post saved successfully", Snackbar.LENGTH_LONG).show();
     }
 
     private void savePost(Post post){

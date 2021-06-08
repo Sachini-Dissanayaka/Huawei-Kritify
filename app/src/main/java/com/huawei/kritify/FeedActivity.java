@@ -78,13 +78,8 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), PostActivity.class));
-            }
-        });
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), PostActivity.class)));
 
         recyclerViewMenu = findViewById(R.id.menuRecyclerView);
         search = findViewById(R.id.search);
