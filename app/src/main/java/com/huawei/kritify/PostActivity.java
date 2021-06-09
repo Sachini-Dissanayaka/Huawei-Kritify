@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,7 +41,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PostActivity extends AppCompatActivity {
+import static com.huawei.kritify.FeedActivity.MY_PREFS_NAME;
+
+public class PostActivity extends AppCompatActivity{
 
     public static final String TAG = "PostActivity";
 
@@ -54,6 +57,7 @@ public class PostActivity extends AppCompatActivity {
     private Site selectedSite;
     private ConstraintLayout constraintLayout;
     private TextView errorUsername, errorSite, errorReview;
+    private String user_token;
 
     //store image urls in this array list
     private ArrayList<Uri> imageUris;
@@ -88,6 +92,8 @@ public class PostActivity extends AppCompatActivity {
         errorSite = findViewById(R.id.errorSite);
         errorReview = findViewById(R.id.errorReview);
 
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        user_token = prefs.getString(getString(R.string.kritify_key), "No token defined");
         //get tool bar
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -235,7 +241,7 @@ public class PostActivity extends AppCompatActivity {
             errorSite.setVisibility(View.GONE);
             errorReview.setVisibility(View.GONE);
 
-            Post post = new Post(username.getText().toString(),selectedSite,
+            Post post = new Post(user_token,username.getText().toString(),selectedSite,
                     imageUrls,description.getText().toString());
             savePost(post);
         }
@@ -267,6 +273,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void savePost(Post post){
         Call<Void> call = retrofitInterface.createPost(post);
+        Log.d(TAG, post.getUserToken());
 
         call.enqueue(new Callback<Void>() {
             @Override
@@ -277,7 +284,6 @@ public class PostActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                Log.d(TAG, t.toString());
                 call.cancel();
                 AlertDialog dialog = new AlertDialog.Builder(PostActivity.this)
                         .setTitle("")

@@ -57,9 +57,11 @@ public class MainActivity extends AppCompatActivity{
                 Log.i(TAG, "idToken:" + authAccount.getIdToken());
                 // Obtain the ID type (0: HUAWEI ID; 1: AppTouch ID).
                 Log.i(TAG, "accountFlag:" + authAccount.getAccountFlag());
+                String userToken = authAccount.getIdToken();
 
                 //Intent intent = new Intent(this, FeedActivity.class);
                 Intent intent = new Intent(this, FeedActivity.class); //direct to create post page after login
+                intent.putExtra("user_token",userToken);
                 startActivity(intent);
             } else {
                 // The sign-in failed. No processing is required. Logs are recorded for fault locating.

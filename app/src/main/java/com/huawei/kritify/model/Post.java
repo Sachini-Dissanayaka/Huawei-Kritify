@@ -12,6 +12,8 @@ public class Post implements Serializable {
     private long id;
     @SerializedName("userName")
     private String userName;
+    @SerializedName("userToken")
+    private String userToken;
     @SerializedName("site")
     private Site site;
     @SerializedName("time")
@@ -21,8 +23,9 @@ public class Post implements Serializable {
     @SerializedName("review")
     private String review;
 
-    public Post(long id, String userName, Site site, Date time, ArrayList<String> imageUrls, String review) {
+    public Post(long id, String userToken, String userName, Site site, Date time, ArrayList<String> imageUrls, String review) {
         this.id = id;
+        this.userToken = userToken;
         this.userName = userName;
         this.site = site;
         this.time = time;
@@ -30,7 +33,8 @@ public class Post implements Serializable {
         this.review = review;
     }
 
-    public Post(String userName, Site site,ArrayList<String> imageUrls, String review) {
+    public Post(String userToken, String userName, Site site,ArrayList<String> imageUrls, String review) {
+        this.userToken = userToken;
         this.userName = userName;
         this.site = site;
         this.imageUrls = imageUrls;
@@ -43,6 +47,14 @@ public class Post implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public String getUserName() {

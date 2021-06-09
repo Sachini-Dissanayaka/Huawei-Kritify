@@ -26,6 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kritify"
         android:usesCleartextTraffic="true">
+        <activity android:name=".PointActivity"/>
         <activity android:name=".AboutActivity"/>
         <activity android:name=".SiteActivity"/>
         <activity android:name=".FeedMapActivity"/>

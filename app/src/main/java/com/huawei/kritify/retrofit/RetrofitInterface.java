@@ -47,5 +47,16 @@ public interface RetrofitInterface {
             @Body Post post
     );
 
+    @GET("/postsByToken/{userToken}")
+    Call<List<Post>> getPostsByToken(
+            @Path("userToken") String userToken
+    );
+
+    @GET("/postsByTokenAndType/{userToken}/{siteId}")
+    Call<List<Post>> getPostsByTokenAndSiteId(
+            @Path("userToken") String userToken,
+            @Path("siteId") long siteId
+    );
+
 }
 

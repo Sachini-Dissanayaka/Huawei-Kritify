@@ -185,6 +185,10 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Intent intent = new Intent(FeedActivity.this, AboutActivity.class);
             startActivity(intent);
         }
+        if (item.getItemId() == R.id.action_account) {
+            Intent intent = new Intent(FeedActivity.this, PointActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -243,6 +247,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 progressBar.setVisibility(View.GONE);
                 showErrorImage();
                 Log.e(TAG,"Load Error:" + t.toString());
+                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
