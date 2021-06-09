@@ -205,6 +205,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO: check if s not empty
                 if (selectedMenuItem.equals("All")) {
                     getFilteredSites(s.toString());
                 } else {

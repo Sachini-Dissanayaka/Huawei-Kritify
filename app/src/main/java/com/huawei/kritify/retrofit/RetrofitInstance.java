@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://heroku-test-456.herokuapp.com";
+    private static final String BASE_URL = "https://mighty-dusk-27239.herokuapp.com";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

@@ -32,3 +32,5 @@
 -keepattributes SourceFile,LineNumberTable
 
 
+
+-keep class com.huawei.**{*;}
