@@ -72,7 +72,8 @@
         android:layout_marginTop="5dp"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/site_name" />
+        app:layout_constraintTop_toBottomOf="@id/site_name"
+        android:backgroundTint="#6C6A6A"/>
 
     <TextView
         android:id="@+id/site_type"
@@ -189,7 +190,7 @@
         android:elevation="50dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="#5E75F6"
+        app:backgroundTint="@color/hwid_auth_button_color_red"
         android:text="@string/save_site"
         android:textColor="@color/white"
         android:textStyle="bold"

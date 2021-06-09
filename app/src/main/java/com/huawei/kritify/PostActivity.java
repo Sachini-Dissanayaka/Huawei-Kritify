@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.button.MaterialButton;
 import com.huawei.kritify.model.Post;
 import com.huawei.kritify.model.Site;
 import com.huawei.kritify.retrofit.RetrofitInstance;
@@ -44,7 +46,8 @@ public class PostActivity extends AppCompatActivity {
 
     //UI views
     private ImageSwitcher imagesPost;
-    private Button btnSubmit, btnPrevious, btnNext, btnPick;
+    private MaterialButton btnSubmit;
+    private ImageButton btnPick, btnNext, btnPrevious;
     private EditText username,description;
     private AutoCompleteTextView shop_name;
     private Toolbar toolbar;

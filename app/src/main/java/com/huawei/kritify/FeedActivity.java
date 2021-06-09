@@ -2,7 +2,6 @@ package com.huawei.kritify;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -32,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
 import com.huawei.kritify.enums.EntityType;
@@ -65,6 +65,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     RecyclerView recyclerViewFeed;
     MainFeedRecyclerViewAdapter mainFeedRecyclerViewAdapter;
     ImageView errorImage;
+    CircularProgressIndicator progressBar;
 
     // retrofit to call REST API
     RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
@@ -88,6 +89,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         search = findViewById(R.id.search);
         recyclerViewFeed = findViewById(R.id.feedRecyclerView);
         errorImage = findViewById(R.id.errorImage);
+        progressBar = findViewById(R.id.progress_bar);
 
         recyclerViewMenu.setLayoutManager(new LinearLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false));
@@ -231,15 +233,16 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                progressBar.setVisibility(View.GONE);
                 hideErrorImage();
                 parseData(response.body());
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 showErrorImage();
                 Log.e(TAG,"Load Error:" + t.toString());
-                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -248,17 +251,19 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private void getFilteredData(String type) {
         // get filtered data
         Call<List<Post>> listCall = retrofitInterface.getPostsBySiteType(type);
+        progressBar.setVisibility(View.VISIBLE);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                progressBar.setVisibility(View.GONE);
                 hideErrorImage();
                 parseData(response.body());
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 showErrorImage();
-                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -313,9 +318,11 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private void getFilteredPostsBySite(long id) {
         // get filtered data
         Call<List<Post>> listCall = retrofitInterface.getPostsBySite(id);
+        progressBar.setVisibility(View.VISIBLE);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                progressBar.setVisibility(View.GONE);
                 hideErrorImage();
                 parseData(response.body());
                 if (response.body() != null) {
@@ -326,8 +333,8 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 showErrorImage();
-                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
