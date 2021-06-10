@@ -41,7 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.huawei.kritify.FeedActivity.MY_PREFS_NAME;
+import static com.huawei.kritify.MainActivity.MY_PREFS_NAME;
 
 public class PostActivity extends AppCompatActivity{
 

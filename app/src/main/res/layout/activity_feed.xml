@@ -77,7 +77,6 @@
             android:ems="10"
             android:imeOptions="actionSearch"
             android:inputType="textAutoComplete|textAutoCorrect"
-            android:textColor="#FFFFFF"
             android:completionThreshold="1"
             android:backgroundTint="@android:color/transparent">
         </AutoCompleteTextView>

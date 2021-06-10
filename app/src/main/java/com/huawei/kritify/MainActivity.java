@@ -15,10 +15,12 @@ import com.huawei.hms.support.account.request.AccountAuthParams;
 import com.huawei.hms.support.account.request.AccountAuthParamsHelper;
 import com.huawei.hms.support.account.result.AuthAccount;
 import com.huawei.hms.support.account.service.AccountAuthService;
+import android.content.SharedPreferences;
 
 public class MainActivity extends AppCompatActivity{
 
     public static final String TAG = "HuaweiIdActivity";
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,12 @@ public class MainActivity extends AppCompatActivity{
                 // Obtain the ID type (0: HUAWEI ID; 1: AppTouch ID).
                 Log.i(TAG, "accountFlag:" + authAccount.getAccountFlag());
                 String userToken = authAccount.getIdToken();
-
+                String user_display_name = authAccount.getDisplayName();
+                setSharedPreferenceValue(userToken,user_display_name);
                 //Intent intent = new Intent(this, FeedActivity.class);
                 Intent intent = new Intent(this, FeedActivity.class); //direct to create post page after login
-                intent.putExtra("user_token",userToken);
+//                intent.putExtra("user_token",userToken);
+//                intent.putExtra("user_display_name",authAccount.getDisplayName());
                 startActivity(intent);
             } else {
                 // The sign-in failed. No processing is required. Logs are recorded for fault locating.
@@ -69,5 +73,13 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(this, "Invalid login. Please try again", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    //set values to shared preference
+    private void setSharedPreferenceValue(String user_token, String user_display_name){
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString(getString(R.string.kritify_key), user_token);
+        editor.putString(getString(R.string.kritify_key),user_display_name);
+        editor.apply();
     }
 }

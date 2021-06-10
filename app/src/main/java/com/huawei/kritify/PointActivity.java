@@ -43,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.huawei.kritify.FeedActivity.MY_PREFS_NAME;
+import static com.huawei.kritify.MainActivity.MY_PREFS_NAME;
 
 public class PointActivity extends AppCompatActivity implements Serializable {
 
@@ -70,8 +70,12 @@ public class PointActivity extends AppCompatActivity implements Serializable {
         search = findViewById(R.id.search);
         shopCount = findViewById(R.id.shops_count);
 
+        //get shared preference values
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         user_token = prefs.getString(getString(R.string.kritify_key), "None");
+        if (user_token.equals("None")){
+            Toast.makeText(this,"No token defined",Toast.LENGTH_LONG).show();
+        }
 
         //get tool bar
         toolbar.setTitle("");
@@ -142,9 +146,6 @@ public class PointActivity extends AppCompatActivity implements Serializable {
 
         search.setOnItemClickListener((parent, view, position, id) -> {
             selectedSite = (Site)parent.getItemAtPosition(position);
-            if (selectedSite == null){
-                shopCount.setVisibility(View.GONE);
-            }
             getFilteredPostsBySiteAndToken(selectedSite.getId());
             Log.d("Search", String.valueOf(selectedSite.getId()));
         });
@@ -152,6 +153,10 @@ public class PointActivity extends AppCompatActivity implements Serializable {
     }
 
     private void getFilteredSites(String siteName) {
+        if (search.getText().toString().equals("")){
+            shopCount.setVisibility(View.GONE);
+            getInitialData();
+        }
         // get filtered data
         Call<List<Site>> listCall = retrofitInterface.getSitesByName(siteName);
         listCall.enqueue(new Callback<List<Site>>() {
