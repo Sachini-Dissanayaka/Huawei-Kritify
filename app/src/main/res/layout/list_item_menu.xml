@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menuButton"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:layout_margin="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:text="@string/item_text"
+    android:textColor="@color/white"
+    android:textAllCaps="false"
+    android:textColorHighlight="@color/black"
+    android:textStyle="bold">
+
+</com.google.android.material.button.MaterialButton>
