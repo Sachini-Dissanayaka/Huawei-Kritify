@@ -55,7 +55,8 @@
 
         <AutoCompleteTextView
             android:id="@+id/search"
-            android:hint="@string/search_site"
+            android:hint="@string/search_for_a_site_to_view_points"
+            android:textSize="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="10dp"
