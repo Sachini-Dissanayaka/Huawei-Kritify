@@ -28,7 +28,16 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.huawei.kritify.model.Post;
 import com.huawei.kritify.model.Site;
 import com.huawei.kritify.retrofit.RetrofitInstance;
@@ -36,6 +45,7 @@ import com.huawei.kritify.retrofit.RetrofitInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +56,11 @@ import static com.huawei.kritify.MainActivity.MY_PREFS_NAME;
 public class PostActivity extends AppCompatActivity{
 
     public static final String TAG = "PostActivity";
+
+    public String filePath;
+
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     //UI views
     private ImageSwitcher imagesPost;
@@ -58,6 +73,7 @@ public class PostActivity extends AppCompatActivity{
     private ConstraintLayout constraintLayout;
     private TextView errorUsername, errorSite, errorReview;
     private String user_token;
+    private LinearProgressIndicator progressIndicator;
 
     //store image urls in this array list
     private ArrayList<Uri> imageUris;
@@ -91,6 +107,7 @@ public class PostActivity extends AppCompatActivity{
         errorUsername = findViewById(R.id.errorUsername);
         errorSite = findViewById(R.id.errorSite);
         errorReview = findViewById(R.id.errorReview);
+        progressIndicator = findViewById(R.id.linear_progress);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         user_token = prefs.getString(getString(R.string.kritify_key), "No token defined");
@@ -119,7 +136,7 @@ public class PostActivity extends AppCompatActivity{
                 imagesPost.setImageURI(imageUris.get(position));
             }
             else {
-                Toast.makeText(PostActivity.this,"No Previous images...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostActivity.this,"No previous images...",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -130,7 +147,7 @@ public class PostActivity extends AppCompatActivity{
                 imagesPost.setImageURI(imageUris.get(position));
             }
             else {
-                Toast.makeText(PostActivity.this,"No More images...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostActivity.this,"No more images...",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -166,7 +183,6 @@ public class PostActivity extends AppCompatActivity{
 
         shop_name.setOnItemClickListener((parent, view, position, id) -> {
             selectedSite = (Site)parent.getItemAtPosition(position);
-            Log.d("Search", String.valueOf(selectedSite.getId()));
         });
 
     }
@@ -216,7 +232,6 @@ public class PostActivity extends AppCompatActivity{
                         //get image uri at specific index
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
                         imageUris.add(imageUri);
-                        imageUrls.add(imageUri.toString());
                     }
                     //set first image to our image switcher
                     imagesPost.setImageURI(imageUris.get(0));
@@ -226,7 +241,6 @@ public class PostActivity extends AppCompatActivity{
                     //picked single image
                     Uri imageUri = data.getData();
                     imageUris.add(imageUri);
-                    imageUrls.add(imageUri.toString());
                     //set image to our image switcher
                     imagesPost.setImageURI(imageUris.get(0));
                     position = 0;
@@ -240,10 +254,9 @@ public class PostActivity extends AppCompatActivity{
             errorUsername.setVisibility(View.GONE);
             errorSite.setVisibility(View.GONE);
             errorReview.setVisibility(View.GONE);
-
-            Post post = new Post(user_token,username.getText().toString(),selectedSite,
-                    imageUrls,description.getText().toString());
-            savePost(post);
+            for (Uri uri: imageUris) {
+                saveImage(uri);
+            }
         }
     }
 
@@ -295,6 +308,63 @@ public class PostActivity extends AppCompatActivity{
                         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#5E75F6")));
 
                 dialog.show();
+            }
+        });
+    }
+
+    private void saveImage(Uri image) {
+        progressIndicator.setVisibility(View.VISIBLE);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
+        StorageReference ref = storageRef.child("images/"+ UUID.randomUUID().toString());
+        Log.d("ImagesUpload", ref.toString());
+        UploadTask uploadTask = ref.putFile(image);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d("ImagesUpload", exception.toString());
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("ImagesUpload", "uploaded");
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+
+                        // Continue with the task to get the download URL
+
+                        return ref.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            if (downloadUri != null) {
+                                imageUrls.add(downloadUri.toString());
+                                Log.d("ImagesUpload", downloadUri.toString());
+                                if (imageUris.size() == imageUrls.size()) {
+                                    Post post = new Post(user_token,username.getText().toString(),selectedSite,
+                                            imageUrls,description.getText().toString());
+                                    progressIndicator.setVisibility(View.GONE);
+                                    savePost(post);
+                                }
+                            }
+
+                        } else {
+                            // Handle failures
+                            // ...
+                        }
+                    }
+                });
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
             }
         });
     }
