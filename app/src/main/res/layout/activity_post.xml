@@ -79,16 +79,6 @@
                     android:text="@string/post_username"
                     android:textSize="17sp" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/username"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="@drawable/edit_round"-->
-<!--                    android:hint="user name"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:textSize="17sp" />-->
-
                 <EditText
                     android:id="@+id/username"
                     android:layout_width="match_parent"
@@ -143,17 +133,6 @@
                     android:layout_marginStart="2dp"
                     android:textSize="17sp" />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/description"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="@drawable/edit_round"-->
-<!--                    android:ems="10"-->
-<!--                    android:hint="description"-->
-<!--                    android:inputType="textMultiLine"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:textSize="17sp" />-->
 
                 <EditText
                     android:id="@+id/description"
@@ -197,17 +176,6 @@
                     android:contentDescription="@string/add_images" />
             </RelativeLayout>
 
-<!--                <Button-->
-<!--                    android:id="@+id/btnPick"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_marginTop="40dp"-->
-<!--                    android:background="@drawable/button_round"-->
-<!--                    android:text="@string/post_pick"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="17sp" />-->
-
                 <ImageSwitcher
                     android:id="@+id/imagesPost"
                     android:layout_width="match_parent"
@@ -239,29 +207,6 @@
                         android:contentDescription="@string/next_image"
                         android:layout_alignParentEnd="true"/>
 
-<!--                    <Button-->
-<!--                        android:id="@+id/btnPrevious"-->
-<!--                        android:textAllCaps="false"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:text="@string/post_previous"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:background="@drawable/button_round"-->
-<!--                        android:textSize="17sp" />-->
-
-<!--                    <Button-->
-<!--                        android:id="@+id/btnNext"-->
-<!--                        android:textAllCaps="false"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_alignParentEnd="true"-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:text="@string/post_next"-->
-<!--                        android:background="@drawable/button_round"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="17sp" />-->
-
                 </RelativeLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -271,7 +216,7 @@
                     android:textSize="18sp"
                     android:layout_marginTop="40dp"
                     android:text="@string/post_submit"
-                    app:backgroundTint="@color/hwid_auth_button_color_red"
+                    app:backgroundTint="#5E75F6"
                     app:cornerRadius="75dp"
                     android:textColor="@color/white"
                     android:layout_gravity="center"/>
