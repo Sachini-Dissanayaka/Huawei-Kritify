@@ -210,10 +210,12 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (selectedMenuItem.equals("All")) {
-                    getFilteredSites(s.toString());
-                } else {
-                    getFilteredSitesByType(s.toString());
+                if (s != "") {
+                    if (selectedMenuItem.equals("All")) {
+                        getFilteredSites(s.toString());
+                    } else {
+                        getFilteredSitesByType(s.toString());
+                    }
                 }
             }
 
@@ -248,7 +250,6 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 progressBar.setVisibility(View.GONE);
                 showErrorImage();
                 Log.e(TAG,"Load Error:" + t.toString());
-                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -291,7 +292,6 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onFailure(@NonNull Call<List<Site>> call, @NonNull Throwable t) {
-                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -315,7 +315,6 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public void onFailure(@NonNull Call<List<Site>> call, @NonNull Throwable t) {
-                Toast.makeText(FeedActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -331,10 +330,6 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 progressBar.setVisibility(View.GONE);
                 hideErrorImage();
                 parseData(response.body());
-                if (response.body() != null) {
-                    Log.d("Search", response.body().toString());
-                }
-
             }
 
             @Override
