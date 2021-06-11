@@ -182,6 +182,7 @@ public class PostActivity extends AppCompatActivity{
         });
 
         shop_name.setOnItemClickListener((parent, view, position, id) -> {
+            errorSite.setVisibility(View.GONE);
             selectedSite = (Site)parent.getItemAtPosition(position);
         });
 
