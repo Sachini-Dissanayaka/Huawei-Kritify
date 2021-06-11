@@ -10,11 +10,10 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.huawei.kritify.R;
 
 import java.util.ArrayList;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class FeedImageRecyclerViewAdapter extends RecyclerView.Adapter<FeedImageRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "ImageRecyclerAdapter";
@@ -42,7 +41,7 @@ public class FeedImageRecyclerViewAdapter extends RecyclerView.Adapter<FeedImage
         Glide.with(mContext)
                 .asBitmap()
                 .load(feedImages.get(position))
-                .transform(new RoundedCornersTransformation(30, 0))
+                .transform(new RoundedCorners(30))
                 .into(holder.image);
     }
 
