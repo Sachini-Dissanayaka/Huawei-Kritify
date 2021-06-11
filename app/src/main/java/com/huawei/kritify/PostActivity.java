@@ -269,7 +269,7 @@ public class PostActivity extends AppCompatActivity{
         } else {
             errorUsername.setVisibility(View.GONE);
         }
-        if (shop_name.getText().toString().equals("")) {
+        if (selectedSite == null) {
             errorSite.setVisibility(View.VISIBLE);
             errors = false;
         } else {
