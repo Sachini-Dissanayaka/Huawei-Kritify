@@ -62,11 +62,9 @@ public class MainActivity extends AppCompatActivity{
                 String userToken = authAccount.getIdToken();
                 String user_display_name = authAccount.getDisplayName();
                 setSharedPreferenceValue(userToken,user_display_name);
-                //Intent intent = new Intent(this, FeedActivity.class);
-                Intent intent = new Intent(this, FeedActivity.class); //direct to create post page after login
-//                intent.putExtra("user_token",userToken);
-//                intent.putExtra("user_display_name",authAccount.getDisplayName());
+                Intent intent = new Intent(this, FeedActivity.class); //direct to feed after login
                 startActivity(intent);
+                finish();
             } else {
                 // The sign-in failed. No processing is required. Logs are recorded for fault locating.
                 Log.e(TAG, "sign in failed : " +((ApiException) authAccountTask.getException()).getStatusCode());
