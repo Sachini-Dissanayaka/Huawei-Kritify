@@ -8,6 +8,7 @@
         android:id="@+id/feedImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="10dp"
         android:contentDescription="@string/image_cannot_be_displayed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
