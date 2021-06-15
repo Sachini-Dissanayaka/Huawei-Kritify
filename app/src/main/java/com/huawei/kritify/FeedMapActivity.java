@@ -44,8 +44,6 @@ public class FeedMapActivity extends AppCompatActivity implements OnMapReadyCall
         hMap = map;
         hMap.setMyLocationEnabled(true);
         hMap.getUiSettings().setMyLocationButtonEnabled(true);
-        hMap.setBuildingsEnabled(true);
-        hMap.setTrafficEnabled(true);
 
         // display marker
         Intent intent = getIntent();
