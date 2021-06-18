@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.model.Post;
 import com.huawei.kritify.model.Site;
@@ -56,7 +58,8 @@ public class PointActivity extends AppCompatActivity implements Serializable {
     Toolbar toolbar;
     Site selectedSite;
     TextView shopCount;
-
+    CircularProgressIndicator progressBar;
+    ImageView errorImage;
     // retrofit to call REST API
     RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
 
@@ -69,6 +72,8 @@ public class PointActivity extends AppCompatActivity implements Serializable {
         pointRecyclerView = findViewById((R.id.pointRecyclerView));
         search = findViewById(R.id.search);
         shopCount = findViewById(R.id.shops_count);
+        progressBar = findViewById(R.id.progress_bar);
+        errorImage = findViewById(R.id.errorImage);
 
         //get shared preference values
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -184,11 +189,15 @@ public class PointActivity extends AppCompatActivity implements Serializable {
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                progressBar.setVisibility(View.GONE);
+                hideErrorImage();
                 parseData(response.body());
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                showErrorImage();
                 Log.e(TAG,"Load Error:" + t.toString());
                 Toast.makeText(PointActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
@@ -199,9 +208,12 @@ public class PointActivity extends AppCompatActivity implements Serializable {
     private void getFilteredPostsBySiteAndToken(long id) {
         // get filtered data
         Call<List<Post>> listCall = retrofitInterface.getPostsByTokenAndSiteId(user_token,id);
+        progressBar.setVisibility(View.VISIBLE);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
+                progressBar.setVisibility(View.GONE);
+                hideErrorImage();
                 parseData(response.body());
                 if (response.body() != null) {
                     int count = response.body().size();
@@ -214,8 +226,20 @@ public class PointActivity extends AppCompatActivity implements Serializable {
 
             @Override
             public void onFailure(@NonNull Call<List<Post>> call, @NonNull Throwable t) {
-                Toast.makeText(PointActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                showErrorImage();
+//                Toast.makeText(PointActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void showErrorImage() {
+        pointRecyclerView.setVisibility(View.GONE);
+        errorImage.setVisibility(View.VISIBLE);
+    }
+
+    public void hideErrorImage() {
+        errorImage.setVisibility(View.GONE);
+        pointRecyclerView.setVisibility(View.VISIBLE);
     }
 }
