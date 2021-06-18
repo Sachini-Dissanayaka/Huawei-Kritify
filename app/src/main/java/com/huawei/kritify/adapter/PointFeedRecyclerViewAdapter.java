@@ -54,11 +54,13 @@ public class PointFeedRecyclerViewAdapter extends RecyclerView.Adapter<PointFeed
         private TextView textViewShop;
         private TextView textViewDesc;
         private TextView time;
+        private RecyclerView imageRecyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
             textViewShop = itemView.findViewById(R.id.textViewShop);
             textViewDesc = itemView.findViewById(R.id.textViewDesc);
+            imageRecyclerView = itemView.findViewById(R.id.imageRecyclerView);
             time = itemView.findViewById(R.id.time);
         }
         public void bind(final Post currentItem) {
@@ -68,6 +70,19 @@ public class PointFeedRecyclerViewAdapter extends RecyclerView.Adapter<PointFeed
             time.setText(dateFormatter.format(currentItem.getTime()));
 
             textViewDesc.setText(currentItem.getReview());
+
+            imageRecyclerView.setLayoutManager(new LinearLayoutManager(
+                    context, LinearLayoutManager.HORIZONTAL, false));
+            imageRecyclerView.setHasFixedSize(true);
+
+            FeedImageRecyclerViewAdapter feedImageRecyclerViewAdapter
+                    = new FeedImageRecyclerViewAdapter(
+                    context, currentItem.getImageUrls());
+
+            imageRecyclerView.setAdapter(feedImageRecyclerViewAdapter);
+            if (currentItem.getImageUrls().size() == 0) {
+                imageRecyclerView.setVisibility(View.GONE);
+            }
         }
     }
 }

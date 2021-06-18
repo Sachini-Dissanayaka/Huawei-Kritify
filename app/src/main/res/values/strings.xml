@@ -63,4 +63,5 @@
     <string name="add_images">Add Images</string>
     <string name="kritify_key">Kritify_Key</string>
     <string name="search_for_a_site_to_view_points">Search for a site to view points</string>
+    <string name="delete_button">location button</string>
 </resources>

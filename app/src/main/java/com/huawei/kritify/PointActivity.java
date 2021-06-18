@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
+import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
 import com.huawei.kritify.model.Post;
 import com.huawei.kritify.model.Site;
 import com.huawei.kritify.retrofit.RetrofitInstance;
