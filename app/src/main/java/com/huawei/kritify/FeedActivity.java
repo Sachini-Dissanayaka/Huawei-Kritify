@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,6 +68,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     MainFeedRecyclerViewAdapter mainFeedRecyclerViewAdapter;
     ImageView errorImage;
     CircularProgressIndicator progressBar;
+    TextView noPostError;
 
     // retrofit to call REST API
     RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
@@ -91,6 +93,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerViewFeed = findViewById(R.id.feedRecyclerView);
         errorImage = findViewById(R.id.errorImage);
         progressBar = findViewById(R.id.progress_bar);
+        noPostError = findViewById(R.id.noPostError);
 
         recyclerViewMenu.setLayoutManager(new LinearLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false));
@@ -243,9 +246,10 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
                 progressBar.setVisibility(View.GONE);
                 hideErrorImage();
-                if (response.body() != null) {
-                    parseData(response.body());
+                if (response.body().size()==0 ){
+                    noPostError.setVisibility(View.VISIBLE);
                 }
+                parseData(response.body());
             }
 
             @Override
