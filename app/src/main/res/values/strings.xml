@@ -64,4 +64,5 @@
     <string name="kritify_key">Kritify_Key</string>
     <string name="search_for_a_site_to_view_points">Search for a site to view points</string>
     <string name="delete_button">location button</string>
+    <string name="no_post_error">Oops!...No posts yet</string>
 </resources>

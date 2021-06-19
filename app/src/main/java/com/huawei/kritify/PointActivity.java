@@ -29,11 +29,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.snackbar.Snackbar;
 import com.huawei.kritify.adapter.MainFeedRecyclerViewAdapter;
 import com.huawei.kritify.adapter.ScrollMenuRecyclerViewAdapter;
 import com.huawei.kritify.model.Post;
@@ -65,6 +67,8 @@ public class PointActivity extends AppCompatActivity implements Serializable {
     TextView shopCount;
     CircularProgressIndicator progressBar;
     ImageView errorImage;
+    ConstraintLayout constraintLayout;
+    TextView noPostError;
     // retrofit to call REST API
     RetrofitInterface retrofitInterface = RetrofitInstance.getRetrofitInstance().create(RetrofitInterface.class);
 
@@ -81,6 +85,8 @@ public class PointActivity extends AppCompatActivity implements Serializable {
         shopCount = findViewById(R.id.shops_count);
         progressBar = findViewById(R.id.progress_bar);
         errorImage = findViewById(R.id.errorImage);
+        constraintLayout = findViewById(R.id.parent);
+        noPostError = findViewById(R.id.noPostError);
 
         //get shared preference values
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
@@ -146,7 +152,9 @@ public class PointActivity extends AppCompatActivity implements Serializable {
                         call.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                                Toast.makeText(PointActivity.this, "Yeah! Post was deleted!", Toast.LENGTH_LONG).show();
+                                Snackbar snackbar = Snackbar
+                                        .make(constraintLayout, "Yeah! Post was deleted!", Snackbar.LENGTH_LONG);
+                                snackbar.show();
                                 getInitialData();
                             }
 
@@ -246,7 +254,11 @@ public class PointActivity extends AppCompatActivity implements Serializable {
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
                 progressBar.setVisibility(View.GONE);
                 hideErrorImage();
+                if (response.body().size()==0 ){
+                    noPostError.setVisibility(View.VISIBLE);
+                }
                 parseData(response.body());
+
             }
 
             @Override
