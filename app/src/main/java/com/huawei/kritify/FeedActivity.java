@@ -271,9 +271,10 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
                 progressBar.setVisibility(View.GONE);
                 hideErrorImage();
-                if (response.body() != null) {
-                    parseData(response.body());
+                if (response.body().size()==0 ){
+                    noPostError.setVisibility(View.VISIBLE);
                 }
+                parseData(response.body());
             }
 
             @Override
@@ -338,9 +339,10 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
                 progressBar.setVisibility(View.GONE);
                 hideErrorImage();
-                if (response.body() != null) {
-                    parseData(response.body());
+                if (response.body().size()==0 ){
+                    noPostError.setVisibility(View.VISIBLE);
                 }
+                parseData(response.body());
             }
 
             @Override
