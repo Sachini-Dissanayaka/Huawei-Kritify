@@ -249,6 +249,8 @@ public class PointActivity extends AppCompatActivity implements Serializable {
     private void getInitialData() {
         // get data
         Call<List<Post>> listCall = retrofitInterface.getPostsByToken(user_token);
+        noPostError.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {

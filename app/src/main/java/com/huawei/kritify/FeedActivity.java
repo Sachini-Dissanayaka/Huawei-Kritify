@@ -241,6 +241,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private void getInitialData() {
         // get data
         Call<List<Post>> listCall = retrofitInterface.getAllPosts();
+        noPostError.setVisibility(View.GONE);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(@NonNull Call<List<Post>> call, @NonNull Response<List<Post>> response) {
@@ -265,6 +266,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private void getFilteredData(String type) {
         // get filtered data
         Call<List<Post>> listCall = retrofitInterface.getPostsBySiteType(type);
+        noPostError.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
@@ -333,6 +335,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private void getFilteredPostsBySite(long id) {
         // get filtered data
         Call<List<Post>> listCall = retrofitInterface.getPostsBySite(id);
+        noPostError.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         listCall.enqueue(new Callback<List<Post>>() {
             @Override
