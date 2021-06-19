@@ -182,6 +182,7 @@ public class PostActivity extends AppCompatActivity{
         });
 
         shop_name.setOnItemClickListener((parent, view, position, id) -> {
+            errorSite.setVisibility(View.GONE);
             selectedSite = (Site)parent.getItemAtPosition(position);
         });
 
@@ -269,7 +270,7 @@ public class PostActivity extends AppCompatActivity{
         } else {
             errorUsername.setVisibility(View.GONE);
         }
-        if (shop_name.getText().toString().equals("")) {
+        if (selectedSite == null) {
             errorSite.setVisibility(View.VISIBLE);
             errors = false;
         } else {

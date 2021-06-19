@@ -176,6 +176,7 @@ public class FeedActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             if (checkLocationPermission()) {
                 if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission. ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    clickedAddSite = false;
                     Intent intent = new Intent(FeedActivity.this, SiteActivity.class);
                     startActivity(intent);
                     return true;

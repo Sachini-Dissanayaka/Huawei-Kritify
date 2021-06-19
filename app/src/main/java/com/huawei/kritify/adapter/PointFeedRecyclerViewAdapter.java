@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,13 +23,19 @@ import java.util.Locale;
 public class PointFeedRecyclerViewAdapter extends RecyclerView.Adapter<PointFeedRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "PointFeedRecyclerViewAdapter";
 
+    public interface OnItemClickListener {
+        void onItemClick(long id);
+    }
+
     private ArrayList<Post> posts;
     private Context context;
+    private final OnItemClickListener listener;
 
     // data is passed into the constructor
-    public PointFeedRecyclerViewAdapter(Context context, ArrayList<Post> posts) {
+    public PointFeedRecyclerViewAdapter(Context context, ArrayList<Post> posts, OnItemClickListener listener) {
         this.context = context;
         this.posts = posts;
+        this.listener = listener;
     }
 
     @NonNull
@@ -42,7 +49,7 @@ public class PointFeedRecyclerViewAdapter extends RecyclerView.Adapter<PointFeed
     @Override
     public void onBindViewHolder(@NonNull PointFeedRecyclerViewAdapter.ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Called");
-        holder.bind(posts.get(position));
+        holder.bind(posts.get(position),listener);
     }
 
     @Override
@@ -54,20 +61,42 @@ public class PointFeedRecyclerViewAdapter extends RecyclerView.Adapter<PointFeed
         private TextView textViewShop;
         private TextView textViewDesc;
         private TextView time;
+        private RecyclerView imageRecyclerView;
+        private ImageButton delete;
 
         ViewHolder(View itemView) {
             super(itemView);
             textViewShop = itemView.findViewById(R.id.textViewShop);
             textViewDesc = itemView.findViewById(R.id.textViewDesc);
+            imageRecyclerView = itemView.findViewById(R.id.imageRecyclerView);
             time = itemView.findViewById(R.id.time);
+            delete = itemView.findViewById(R.id.delete_icon);
         }
-        public void bind(final Post currentItem) {
+        public void bind(final Post currentItem, final OnItemClickListener listener) {
             textViewShop.setText(currentItem.getSite().getName());
 
             SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM d", Locale.getDefault());
             time.setText(dateFormatter.format(currentItem.getTime()));
 
             textViewDesc.setText(currentItem.getReview());
+
+            imageRecyclerView.setLayoutManager(new LinearLayoutManager(
+                    context, LinearLayoutManager.HORIZONTAL, false));
+            imageRecyclerView.setHasFixedSize(true);
+
+            FeedImageRecyclerViewAdapter feedImageRecyclerViewAdapter
+                    = new FeedImageRecyclerViewAdapter(
+                    context, currentItem.getImageUrls());
+
+            imageRecyclerView.setAdapter(feedImageRecyclerViewAdapter);
+            if (currentItem.getImageUrls().size() == 0) {
+                imageRecyclerView.setVisibility(View.GONE);
+            }
+
+            delete.setOnClickListener(v -> {
+                listener.onItemClick(currentItem.getId());
+                notifyDataSetChanged();
+            });
         }
     }
 }
