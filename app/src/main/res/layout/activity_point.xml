@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parent"
     tools:context=".FeedActivity"
     android:focusable="true"
     android:focusableInTouchMode="true">
@@ -111,5 +112,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shops_count" />
+
+    <!-- Circular progress indicator -->
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indicatorColor="#5E75F6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView"/>
+
+    <ImageView
+        android:id="@+id/errorImage"
+        android:layout_margin="20dp"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView"
+        android:background="@drawable/error"
+        android:visibility="gone"
+        android:contentDescription="@string/error_image" />
+
+    <TextView
+        android:id="@+id/noPostError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_post_error"
+        android:textSize="24dp"
+        android:textColor="#5E75F6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

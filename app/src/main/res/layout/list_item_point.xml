@@ -13,13 +13,30 @@
         android:padding="16dp"
         android:background="@drawable/edit_round">
 
-        <TextView
-            android:id="@+id/textViewShop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#5E75F6"
-            android:text="Site Name"
-            android:textSize="22sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:id="@+id/textViewShop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:textColor="#5E75F6"
+                android:text="Site Name"
+                android:gravity="start"
+                android:textSize="22sp" />
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:gravity="end"
+
+                android:text="@string/time" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textViewDesc"
@@ -29,13 +46,21 @@
             android:text="Description"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imageRecyclerView"
             android:layout_marginTop="10dp"
-            android:text="@string/time"
-            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <ImageButton
+            android:id="@+id/delete_icon"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_delete_button"
+            android:backgroundTint="#D53E3E"
+            android:contentDescription="@string/delete_button"
+            android:elevation="2dp"
             android:layout_gravity="end"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
